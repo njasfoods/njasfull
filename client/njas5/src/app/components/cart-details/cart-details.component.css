@@ -1,0 +1,155 @@
+.card {
+  border: none;
+  box-shadow: 2px 2px 10px rgba(204, 204, 204, 0.192);
+  border-radius: 10px;
+}
+.cardHeader {
+  padding: 15px 20px;
+  font-size: 20px;
+  color: black;
+  background-color: #eef2fb ;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.itemImageArea {
+  height: 90px;
+}
+.form-group .form-control {
+  background: #eef2fb !important;
+  /* border-radius: 50px; */
+  border: none;
+}
+.form-group .form-control:focus {
+  background: white !important;
+  border: 1px solid #F08100;
+  /* border-color: #F08100; */
+}
+.cartList {
+  border-bottom: 1px solid #fafafa;
+}
+.clearBtn {
+  background-color: #408858;
+  color: white;
+  padding: 10px;
+    border-radius: 5px;
+}
+.noItemsCart {
+  display: grid;
+  padding: 10px 0px;
+  text-align: center;
+  justify-content: center;
+  color: #408858;
+  font-weight: 500;
+}
+.backBtn {
+  border: none;
+    padding: 10px;
+    outline: none;
+    color: black;
+    border-radius: 10px;
+    margin: 10px 0px;
+}
+.backBtn:hover {
+  background: #1c8f42;
+  color: white;
+}
+.loadingText {
+  animation-name: loadingText;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes loadingText {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.cardBody {
+  padding: 10px;
+}
+.loader {
+  width: 80px;
+  height: 80px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+input,
+select {
+  height: 60px;
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.submitBtn {
+  text-align: center;
+  cursor: pointer;
+}
+.submitBtn button {
+  background-color: #408858;
+  color: #fff;
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  width: 100%;
+}
+.btn.confirm-button {
+  position: absolute;
+  margin: 10px auto;
+}
+.input-group-btn {
+  background: none;
+  border: none;
+}
+.qtyPlusMinus button {
+  background: none;
+  border: none;
+  padding: 10px;
+}
+
+.minusQtyBtn.deductFromCart.deductButton,
+.addMoreQtyBtn.addToCart {
+  background: none;
+  border: none;
+  outline: none;
+}
+.input-group.inputGroupQtyPlusMinus input {
+  text-align: center;
+  background: none;
+  border: none;
+}
+.cartList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+table {
+  width: 100%;
+}
+.btn.btn-primary {
+  width: 100%;
+}

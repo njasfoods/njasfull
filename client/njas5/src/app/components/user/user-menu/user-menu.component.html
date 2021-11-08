@@ -1,0 +1,138 @@
+<div class="list-group">
+  <div class="list-group-item list-group-item-action">
+    <div class="text-center">
+      <img
+        class="rounded-circle img-thumbnail"
+        style="width: 150px; height: 150px"
+        (click)="imageUploadBtn.click()"
+        [src]="
+          customerDetailsArr.photo != null && customerDetailsArr.photo != ' '
+            ? customerDetailsArr.photo
+            : './assets/img/logo_w.png'
+        "
+        id="profilePhoto"
+        alt=""
+      />
+      <div class="">
+        <form
+          #image="ngForm"
+          id="imageForm"
+          enctype="multipart/form-data"
+          id="step3"
+        >
+          <span style="text-decoration: underline">
+            <input
+              type="file"
+              color="primary"
+              class="btn btn-sm"
+              name="imageFile"
+              #imageUploadBtn
+              (change)="uploadImage($event)"
+            /><br />
+            <!-- (250px X 100px) -->
+          </span>
+        </form>
+      </div>
+      <div class="">
+        <small class="text-muted">Welcome</small>
+        <h5 class="mb-1">{{ customerDetailsArr.name }}</h5>
+      </div>
+    </div>
+  </div>
+  <!--
+  <div class="list-group-item list-group-item-action">
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill" />
+      </svg>
+      <div class="text-muted">Your order is on its way! Queue: #4 (00:00:12:23s)</div>
+    </div>
+  </div>
+-->
+  <button
+    id="p_bt"
+    class="list-group-item list-group-item-action"
+    routerLink="/user"
+    routerLinkActive="active"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1"><i class="far fa-user mx-1"></i> Profile</p>
+      <small class=""><i class="fas fa-angle-right"></i></small>
+    </div>
+  </button>
+  <button
+    id="ph_bt"
+    class="list-group-item list-group-item-action"
+    routerLink="/order-history"
+    routerLinkActive="active"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1"><i class="fas fa-history mx-1"></i> Purchase History</p>
+      <small class=""><i class="fas fa-angle-right"></i></small>
+    </div>
+  </button>
+
+  <button
+    id="ph_bt"
+    class="list-group-item list-group-item-action"
+    routerLink="/subscriptions"
+    routerLinkActive="active"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1">
+        <i class="fa fa-rocket" aria-hidden="true"></i> Subscriptions
+      </p>
+      <small class=""><i class="fas fa-angle-right"></i></small>
+    </div>
+  </button>
+
+  <button
+    disabled
+    class="list-group-item list-group-item-action"
+    routerLink="/nutrition"
+    routerLinkActive="active"
+  >
+    <!-- routerLink="/nutrition" -->
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1"><i class="fas fa-seedling mx-1"></i> My Nutrition</p>
+      <small class=""><i class="fas fa-angle-right"></i></small>
+    </div>
+  </button>
+  <button
+    disabled
+    id="d_bt"
+    class="list-group-item list-group-item-action"
+    routerLink="/delivery-locations"
+    routerLinkActive="active"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1">
+        <i class="fas fa-map-pin mx-1"></i> Delivery Location(s)
+      </p>
+      <small class=""><i class="fas fa-angle-right"></i></small>
+    </div>
+  </button>
+
+  <button
+    id="s_bt"
+    class="list-group-item list-group-item-action"
+    routerLink="/settings"
+    routerLinkActive="active"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1"><i class="fas fa-user-cog mx-1"></i> Settings</p>
+      <small class=""><i class="fas fa-angle-right"></i></small>
+    </div>
+  </button>
+
+  <button
+    id="s_bt"
+    class="list-group-item list-group-item-action"
+    (click)="this.auth.signOut()"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1"><i class="fa fa-sign-out-alt mx-1"></i> Logout</p>
+      <small class=""><i class="fas fa-angle-right"></i></small>
+    </div>
+  </button>
+</div>

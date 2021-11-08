@@ -1,0 +1,218 @@
+<span *ngIf="(storeArr | json) !== '[]'">
+  <form #subscribeForm="ngForm" (ngSubmit)="onClickSubmit(subscribeForm)">
+    <div class="text-center">
+      <div class="row">
+        <div class="col-lg-3 d-none d-lg-block">
+          <div class="container days">
+            <ul class="side">
+              <li>
+                <h3 class="display-6">Selection</h3>
+              </li>
+
+              <li>
+                <!-- btn-success -->
+                <button type="button" class="btn  {{
+                    this.subscriptionData.monday !== 'none'
+                      ? 'btn-success'
+                      : 'btn-outline-success'
+                  }}">
+                  Monday
+                </button>
+              </li>
+              <li>
+                <button type="button" class="btn {{
+                    this.subscriptionData.tuesday !== 'none'
+                      ? 'btn-success'
+                      : 'btn-outline-success'
+                  }}">
+                  Tuesday
+                </button>
+              </li>
+              <li>
+                <button type="button" class="btn {{
+                    this.subscriptionData.wednesday !== 'none'
+                      ? 'btn-success'
+                      : 'btn-outline-success'
+                  }}">
+                  Wednesday
+                </button>
+              </li>
+              <li>
+                <button type="button" class="btn {{
+                    this.subscriptionData.thursday !== 'none'
+                      ? 'btn-success'
+                      : 'btn-outline-success'
+                  }}">
+                  Thursday
+                </button>
+              </li>
+              <li>
+                <button type="button" class="btn {{
+                    this.subscriptionData.friday !== 'none'
+                      ? 'btn-success'
+                      : 'btn-outline-success'
+                  }}">
+                  Friday
+                </button>
+              </li>
+              <li>
+                <button type="button" class="btn {{
+                    this.subscriptionData.saturday !== 'none'
+                      ? 'btn-success'
+                      : 'btn-outline-success'
+                  }}">
+                  Saturday
+                </button>
+              </li>
+
+              <li>
+                <button type="button" (click)="clearSelection()" class="btn btn-danger">
+                  Clear Selection
+                </button>
+              </li>
+              <li>
+                <button type="submit" class="btn btn-warning">
+                  Place Order &nbsp;<i class="fa fa-arrow-right"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="my-5">
+            <h3 class="display-5 p-2 text-black">Hot Meals</h3>
+            <figure>
+              <blockquote class="blockquote">
+                <p>"Health requires healthy food"</p>
+              </blockquote>
+              <figcaption class="blockquote-footer">Roger Williams</figcaption>
+            </figure>
+          </div>
+
+          <button type="submit" class="btn btn-warning d-lg-none .d-xl-block">
+            Place Order &nbsp;<i class="fa fa-arrow-right"></i>
+          </button>
+          <hr />
+          <!--switches-->
+          <!-- <div class="switches d-flex justify-content-center">
+            <div class="form-check form-switch">
+              <input class="form-check-input" [(ngModel)]="isVegChecked"
+                (change)="checkVegValue(isVegChecked?true:false)" type="checkbox" name="isVegChecked" />
+              <label class="form-check-label" for="flexSwitchCheckDefault">Vegan</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="isMeatChecked"
+                (change)="checkMeatValue(isMeatChecked?true:false)" name="isMeatChecked" checked />
+              <label class="form-check-label" for="meatSwitch">Non-Vegan</label>
+            </div>
+          </div> -->
+
+          <!--end switch-->
+          <!--&& this.mealMenu==='subscribe_for_this_week' -->
+          <section *ngIf="
+              this.mealMenu &&
+              this.mealsMenuArr &&
+              this.storeArr &&
+              subscriptionData &&
+              this.mealMenu
+            ">
+            <div class="row">
+              <div class="col-lg-12">
+                <h2 class="text-success display-6">Monday</h2>
+              </div>
+              <layout-meal-product [plan]="this.subscriptionData.plan" [plansArr]="this.plansArr"    
+                [isVegChecked]="isVegChecked" [isMeatChecked]="isMeatChecked" [storeArr]="storeArr"
+                [mealBookingDayMorning4]="mealBookingDayMorning4" day="monday" [mealsMenuArr]="this.mealsMenuArr.monday"
+                [subscriptionData]="this.subscriptionData" [productArr]="this.mealsMenuArr.monday.products">
+              </layout-meal-product>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="row">
+              <div class="col-lg-12">
+                <h2 class="text-success display-6">Tuesday</h2>
+              </div>
+              <layout-meal-product [plan]="this.subscriptionData.plan" [plansArr]="this.plansArr"    
+                [isVegChecked]="isVegChecked" [isMeatChecked]="isMeatChecked" [storeArr]="storeArr"
+                [mealBookingDayMorning4]="mealBookingDayMorning4" day="tuesday"
+                [mealsMenuArr]="this.mealsMenuArr.tuesday" [subscriptionData]="this.subscriptionData"
+                [productArr]="this.mealsMenuArr.tuesday.products"></layout-meal-product>
+            </div>
+            <hr class="my-4" />
+            <div class="row">
+              <div class="col-lg-12">
+                <h2 class="text-success display-6">Wednesday</h2>
+              </div>
+              <layout-meal-product [plan]="this.subscriptionData.plan" [plansArr]="this.plansArr"    
+                [isVegChecked]="isVegChecked" [isMeatChecked]="isMeatChecked" [storeArr]="storeArr"
+                [mealBookingDayMorning4]="mealBookingDayMorning4" day="wednesday"
+                [mealsMenuArr]="this.mealsMenuArr.wednesday" [subscriptionData]="this.subscriptionData"
+                [productArr]="this.mealsMenuArr.wednesday.products"></layout-meal-product>
+            </div>
+            <hr class="my-4" />
+            <div class="row">
+              <div class="col-lg-12">
+                <h2 class="text-success display-6">Thursday</h2>
+              </div>
+              <layout-meal-product [plan]="this.subscriptionData.plan" [plansArr]="this.plansArr"    
+                [isVegChecked]="isVegChecked" [isMeatChecked]="isMeatChecked" [storeArr]="storeArr"
+                [mealBookingDayMorning4]="mealBookingDayMorning4" day="thursday"
+                [mealsMenuArr]="this.mealsMenuArr.thursday" [subscriptionData]="this.subscriptionData"
+                [productArr]="this.mealsMenuArr.thursday.products"></layout-meal-product>
+            </div>
+            <hr class="my-4" />
+            <div class="row">
+              <div class="col-lg-12">
+                <h2 class="text-success display-6">Friday</h2>
+              </div>
+              <layout-meal-product [plan]="this.subscriptionData.plan" [plansArr]="this.plansArr"    
+                [isVegChecked]="isVegChecked" [isMeatChecked]="isMeatChecked" [storeArr]="storeArr"
+                [mealBookingDayMorning4]="mealBookingDayMorning4" day="friday" [mealsMenuArr]="this.mealsMenuArr.friday"
+                [subscriptionData]="this.subscriptionData" [productArr]="this.mealsMenuArr.friday.products">
+              </layout-meal-product>
+            </div>
+            <hr class="my-4" />
+
+            <div class="row">
+              <div class="col-lg-12">
+                <h2 class="text-success display-6">Saturday</h2>
+              </div>
+              <layout-meal-product [plan]="this.subscriptionData.plan" [plansArr]="this.plansArr"    
+                [isVegChecked]="isVegChecked" [isMeatChecked]="isMeatChecked" [storeArr]="storeArr"
+                [mealBookingDayMorning4]="mealBookingDayMorning4" day="saturday"
+                [mealsMenuArr]="this.mealsMenuArr.saturday" [subscriptionData]="this.subscriptionData"
+                [productArr]="this.mealsMenuArr.saturday.products"></layout-meal-product>
+            </div>
+            <div class="row">
+              <button type="button" (click)="clearSelection()" class="btn btn-danger">
+                Clear Selection
+              </button>
+              <button type="submit" class="btn btn-warning">
+                Place Order &nbsp;<i class="fa fa-arrow-right"></i>
+              </button>
+            </div>
+          </section>
+
+          <section class="blog-section section-padding" id="loading-section" style="padding: 26px 0px"
+            *ngIf="!this.mealMenu || !this.mealsMenuArr || !this.storeArr">
+            <span id="loading-main">
+              <div class="preloader_section">
+                <div class="preloader_section__square"></div>
+                <div class="preloader_section__square"></div>
+                <div class="preloader_section__square"></div>
+                <div class="preloader_section__square"></div>
+              </div>
+              <div class="status">
+                Rendering<span class="status__dot">.</span><span class="status__dot">.</span><span
+                  class="status__dot">.</span>
+              </div>
+            </span>
+          </section>
+
+          <hr class="my-4" />
+        </div>
+      </div>
+    </div>
+  </form>
+</span>

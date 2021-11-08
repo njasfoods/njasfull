@@ -1,0 +1,163 @@
+.checkoutForm {
+  background-color: #fafafa;
+}
+.formContent {
+  background-color: white;
+  border-radius: 10px;
+  margin: 25px auto;
+}
+.cardHeader {
+  padding: 15px 20px;
+  font-size: 20px;
+  color: black;
+  background-color: #fafafa;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cardHeader button {
+  background-color: #408858;
+}
+.cardBody {
+  text-align: left;
+  padding: 10px;
+}
+.loader {
+  width: 80px;
+  height: 80px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.noItemsCart {
+  display: grid;
+  padding: 230px 0px;
+  text-align: center;
+  justify-content: center;
+  color: #408858;
+  font-weight: 500;
+}
+.loadingText {
+  animation-name: loadingText;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes loadingText {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.success-animation svg {
+  margin: 5px auto;
+  font-size: 16px;
+}
+.success-animation {
+  text-align: center;
+  margin: 25px;
+  font-size: 16px;
+  color: #408858;
+  font-weight: 500;
+}
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #4bb71b;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #4bb71b;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+  position: relative;
+  top: 5px;
+  right: 5px;
+  margin: 0 auto;
+}
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #4bb71b;
+  fill: #fff;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #4bb71b;
+  }
+}
+.backBtn {
+  border: none;
+  padding: 5px;
+  outline: none;
+  color: black;
+  background: none;
+  border-radius: 10px;
+  margin: 10px 0px;
+}
+.backBtn:hover {
+  background: #1c8f42;
+  color: white;
+}
+@media only screen and (max-width: 600px) {
+  .noItemsCart {
+    padding: 180px 0px;
+  }
+  .formContent {
+    padding: 0;
+  }
+}

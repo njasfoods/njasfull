@@ -1,0 +1,38 @@
+nav{
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #35bf4c;
+   /* position: fixed;
+    top: 0;*/
+    z-index: 10; 
+}
+.nav-item{
+    margin: 0 1.2rem;
+    
+}
+.nav-link{
+    color: white !important;
+}
+.nav-link:hover, .nav-link:active{
+    color: brown !important;
+}
+.logo{
+    width: 1.8rem;
+}
+
+.nav-link.active{
+    color:yellow !important;
+}
+
+.navBag{
+    display: none;
+}
+
+@media only screen and (max-width: 992px){
+    .navBag{
+        display: inline;
+    }
+    .navCart{
+        display: none;
+    }
+}

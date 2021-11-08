@@ -1,0 +1,16 @@
+.cardHeader {
+  padding: 15px 20px;
+  font-size: 20px;
+  color: black;
+  background-color: #fafafa;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cardHeader button {
+  background-color: green;
+}
+.card-body {
+  text-align: left;
+}

@@ -1,0 +1,352 @@
+<div *ngIf="loader">
+  <section class="blog-section section-padding" id="loading-section" style="padding:26px 0px;" *ngIf="loader">
+    <span id="loading-main">
+      <div class="preloader_section">
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+      </div>
+      <div class="status">Rendering<span class="status__dot">.</span><span class="status__dot">.</span><span
+          class="status__dot">.</span></div>
+    </span>
+  </section>
+</div>
+<div *ngIf="storeData.store" id="cart" class="checkoutForm">
+  <div style="width:100%" class="row m-0 p-0">
+    <section *ngIf="isSomethingWrong">
+      <div style="
+          text-align: center;
+          display: flex;
+          align-items: center; justify-content: center;">
+        <h1>
+          Oops something went wrong...
+        </h1>
+      </div>
+    </section>
+    <section class="col-md-8 col-12 formContent" *ngIf="cartProducts && cartProducts.length">
+      <div class="d-flex justify-content-between align-items-center">
+        <button [routerLink]="['/']" class="backBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+          </svg>
+          Home
+        </button>
+        <h4 class="m-0">Order Summary</h4>
+      </div>
+      <div class="success-animation">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+          <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
+        <div style="font-size: 25px; margin-top: 20px;">
+          ORDER PLACED!
+        </div>
+      </div>
+      <input type="hidden" id="incompleteOrder" value="1" />
+      <div class="cart-summary-total-value" style="display: none;">
+        {{ this.storeData.store.currency_symbol | currencySymbol }} 6.87
+      </div>
+      <div class="cart-summary-total-quantity" style="display: none;">1</div>
+      <a name="cart">
+        <div class="row">
+          <div class="col-xl-12 col-md-12" style="    padding: 10px 25px;
+          color: deeppink;
+          text-align: center;
+          border-bottom: 1px solid #f3f3f3;
+          margin-bottom: 20px;">
+            Your order has been submitted, <br />
+            You will get an email from Our Team shortly. <br />
+            If you do not see it in your inbox, Please do check your spam.
+            <br />
+            Thank you for shopping with us!
+          </div>
+
+
+          <hr />
+
+
+          <section *ngIf="(+(total +
+          (storeData.store.delivery_charges
+          ? +storeData.store.delivery_charges
+          : 0) -
+          appliedCouponDetails
+          ).toFixed(2)) >150 && developer_id">
+            <div class="text-success" style="font-size: 25px; margin-top: 20px;   text-align: center;">
+              To 'PAY ONLINE' click on the below button
+            </div>
+
+            <br>
+            <form #my_form action="{{wipay_payment_gateway_url}}" method="POST">
+              <input name="total" type="hidden" value="{{
+              (
+              total +
+              (storeData.store.delivery_charges
+              ? +storeData.store.delivery_charges
+              : 0) -
+              appliedCouponDetails
+              ).toFixed(2)
+              }}" />
+              <input name="phone" type="hidden" value="{{addCustomerDetails[0].contactNo}}" />
+
+              <input name="currency_code" type="hidden" value="JMD" />
+
+              <input name="email" type="hidden" value="{{addCustomerDetails[0].contactEmail}}" />
+              <input name="name" type="hidden" value="{{ addCustomerDetails[0].name}}" />
+              <input name="order_id" type="hidden" value="{{orderId}}" />
+              <input name="return_url" type="hidden" value="{{payment_return_url}}" />
+              <input name="developer_id" type="hidden" value="{{developer_id}}" />
+              <button class="btn btn-info text-center btn-block" type="submit" (click)="my_form.submit()"
+                [disabled]="cartProducts.length === 0">
+                <b>PAY ONLINE</b><i class="fa fa-angle-right"></i></button>
+            </form>
+            <br>
+
+
+            <hr />
+          </section>
+
+
+          <div class="col-xl-12 col-md-12">
+            <div class="row" style="padding: 0px 10px;
+            font-weight: 500;">
+              <div class="col-12">
+                Mode :
+                {{
+                addCustomerDetails[0].selectedDelivery === 'd'
+                ? 'Delivery'
+                : 'Pickup'
+                }}
+              </div>
+            </div>
+            <div class="cardBody">
+              <section *ngIf="addCustomerDetails.length">
+                <div class="row">
+                  <div class="col-12" style="font-weight: 500;">
+                    Customer Details :
+                  </div>
+
+                  <div class="col-12">
+                    {{ addCustomerDetails[0].name }}, <br />
+                    {{ addCustomerDetails[0].contactEmail }}, <br />
+                    {{ addCustomerDetails[0].contactNo }} <br />
+                    <section *ngIf="addCustomerDetails[0].selectedDelivery === 'd'">
+                      {{ addCustomerDetails[0].address1 }},<br />
+                      {{ addCustomerDetails[0].address2 }}
+
+                      <!-- , Pincode - {{addCustomerDetails[0].pincode}} -->
+                    </section>
+                  </div>
+                </div>
+              </section>
+
+              <div class="card">
+                <div class="row counter m-0" style="background-color: #fafafa; padding: 10px 0px;">
+                  <div class="col-3">Item</div>
+                  <div class="col-6">Name</div>
+                  <div class="col-3">Qty x Amount</div>
+                </div>
+                <div class="row d-flex align-items-center justify-content-between"
+                  *ngFor="let item of cartProducts; let i = index">
+                  <div class="col-3">
+                    <img class="product-img" alt="item" width="60px" height="60px" src="{{ item.images1 }}"
+                      onerror="this.onerror=null; this.src=`./assets/images/no-image.png`" />
+                  </div>
+                  <div class="col-6">{{ item.name }}</div>
+                  <div class="col-3">
+                    {{ item.quantity }}
+                    <span style="margin: 0px 3px;">x</span>
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{ item.discount_price }}
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-6">Sub-Total</div>
+                <div class="col-6" style="text-align: right;">
+                  {{ this.storeData.store.currency_symbol | currencySymbol }}
+                  {{ total.toFixed(2) }}
+                </div>
+              </div>
+              <hr />
+              <div class="row" *ngIf="
+                  storeData.store.delivery_charges &&
+                  (storeData.store.order_mode === 'delivery' ||
+                    storeData.store.order_mode === 'all')
+                ">
+                <div class="col-6">Delivery Charges</div>
+                <div class="col-6" style="text-align: right;">
+                  {{ this.storeData.store.currency_symbol | currencySymbol }}
+                  {{ (+this.storeData.store.delivery_charges).toFixed(2) }}
+                </div>
+              </div>
+              <hr />
+
+              <div class="row" style="font-weight: 500; color: #e77000;" *ngIf="
+                  (storeData.store.order_mode === 'delivery' ||
+                    storeData.store.order_mode === 'all') &&
+                  addCustomerDetails[0].selectedDelivery === 'd'
+                ">
+                <div class="col-6">Total</div>
+                <div class="col-6" style="text-align: right;">
+                  {{ this.storeData.store.currency_symbol | currencySymbol }}
+                  {{
+                  (
+                  total +
+                  (storeData.store.delivery_charges
+                  ? +storeData.store.delivery_charges
+                  : 0) -
+                  appliedCouponDetails
+                  ).toFixed(2)
+                  }}
+                </div>
+              </div>
+              <hr />
+
+              <div class="row" *ngIf="
+                  !storeData.store.delivery_charges &&
+                  (storeData.store.order_mode !== 'delivery' ||
+                    storeData.store.order_mode !== 'all') &&
+                  addCustomerDetails[0].selectedDelivery === 'p'
+                ">
+                <div class="col-6">
+                  Total
+                </div>
+                <div class="col-6" style="text-align: right;">
+                  {{ this.storeData.store.currency_symbol | currencySymbol }}
+                  {{ (total - appliedCouponDetails).toFixed(2) }}
+                </div>
+              </div>
+
+              <div *ngIf="addCustomerDetails.length">
+                <div class="row">
+                  <div class="col-12" style="font-weight: 500;">
+                    Special Instructions :
+                  </div>
+                  <div class="col-12" *ngIf="
+                      addCustomerDetails[0].notes &&
+                      addCustomerDetails[0].notes !== '' &&
+                      addCustomerDetails[0].notes !== ' ' &&
+                      addCustomerDetails[0].notes !== undefined &&
+                      addCustomerDetails[0].notes !== null
+                    ">
+                    {{ addCustomerDetails[0].notes }}
+                  </div>
+                </div>
+                <hr />
+
+                <div class="row" *ngIf="
+                    !addCustomerDetails[0].notes ||
+                    addCustomerDetails[0].notes == '' ||
+                    addCustomerDetails[0].notes === ' ' ||
+                    addCustomerDetails[0].notes === undefined ||
+                    addCustomerDetails[0].notes == null
+                  ">
+                  <div class="col-6 text-right">
+                    N/A
+                  </div>
+                </div>
+
+                <!-- <div class="row" *ngIf="addCustomerDetails[0].selectedDelivery === 'd'">
+                  <div class="col-6">
+                    Delivery day :
+                  </div>
+                  <div class="col-6 text-right">
+                    {{
+                    addCustomerDetails[0].delivery_day
+                    ? addCustomerDetails[0].delivery_day
+                    : 'N/A'
+                    }}
+                  </div>
+                </div>
+                <hr /> -->
+
+                <div *ngIf="
+                    addCustomerDetails[0].selectedDelivery === 'd' &&
+                    chosedDeliveryOption
+                  " class="row">
+                  <div class="col-6">
+                    Delivery Partner :
+                  </div>
+                  <div class="col-6 text-right">
+                    {{
+                    chosedDeliveryOption.name
+                    ? chosedDeliveryOption.name
+                    : 'Default'
+                    }}
+                    -
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{
+                    chosedDeliveryOption.price
+                    ? chosedDeliveryOption.price
+                    : 0
+                    }}
+                  </div>
+                </div>
+                <hr />
+
+                <div *ngIf="addCustomerDetails[0].bank_option" class="row">
+                  <div class="col-6">
+                    Preferred mode of payment :
+                  </div>
+                  <div class="col-6 text-right">
+                    {{
+                    addCustomerDetails[0].bank_option
+                    ? addCustomerDetails[0].bank_option
+                    : 'N/A'
+                    }}
+                  </div>
+                </div>
+                <hr />
+              </div>
+            </div>
+
+            <!-- <tr *ngIf="appliedCouponDetails !== 'false'">
+                    <td class="text-left text-success">Discount</td>
+                    <td class="text-right text-success">
+                      -
+                      {{
+                        this.storeData.store.currency_symbol | currencySymbol
+                      }}
+                      {{
+                        +(
+                          +(
+                            +total * +appliedCouponDetails.discount_percentage
+                          ) / 100
+                        ).toFixed(2)
+                      }}
+                    </td>
+                  </tr> -->
+          </div>
+        </div>
+
+
+        <!-- <a *ngIf="this.auth.user$.email" routerLinkActive="active" [routerLink]="['/order-receipt/' + orderId]"
+          class="btn btn-sm btn-primary btn-block" style="padding: 5px;">VIEW RECEIPT</a>
+       -->
+      
+        </a>
+
+      <!-- <div *ngIf="storeData.store">
+        <div class="p-2" transparent>
+          <p color="warning" class="text-danger">
+            Your order has been mailed, You will get response from
+            <strong class="text-danger"
+              >{{ this.storeData.store.display_name }} Team shortly.</strong
+            >
+            Thank you for shopping with us!
+          </p>
+        </div>
+      </div> -->
+      <div class="card-body p-2">
+        <div class="col-lg-12 text-center">
+          <a [routerLink]="['/']" class="btn btn-outline-secondary text-center" tabindex="0" id="showOrderOptions">
+            GO TO HOME
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

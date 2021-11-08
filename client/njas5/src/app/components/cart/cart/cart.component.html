@@ -1,0 +1,62 @@
+ <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Shopping Cart</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ng-container *ngIf="emptyCart">
+            <div class="text-center">
+                <h4>Your Cart is Empty</h4>
+                <h6>Add item to it now</h6>
+                <button class="btn btn-primary">Shop Now</button>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="!emptyCart">  
+            <article class="card mb-3">
+              <div class="row">
+              <div class="col-md-5">
+                  <img src="" alt="">
+              </div>
+              <div class="col-md-4">
+                  <p class="lead">Item name</p>
+                  <p class="small text-mute">Description</p>
+              </div>
+              <div class="col-md-3">
+                  <p>$300</p>
+                  <form action="">
+                      <select name="" id="">
+                          <option value="">-</option>
+                      </select>
+                  </form>
+              </div>
+              </div>
+          </article>
+          <article class="card mb-3">
+              <div class="row">
+              <div class="col-md-5">
+                  <img src="" alt="">
+              </div> 
+              <div class="col-md-4">
+                  <p class="lead">Item name</p>
+                  <p class="small text-mute">Description</p>
+              </div>
+              <div class="col-md-3">
+                  <p>$300</p>
+                  <form action="">
+                      <select name="" id="">
+                          <option value="">-</option>
+                      </select>
+                  </form>
+              </div>
+              </div>
+          </article>
+  
+          <hr>
+          <h5>Total: <span class="lead float-end">$1000</span></h5>
+   
+      <div class="mt-5 d-grid gap-2 col-6 mx-auto">
+          <button class="btn btn-primary" type="button">Checkout</button>
+        </div>
+         </ng-container>
+        
+    </div>

@@ -1,0 +1,203 @@
+<div class="col-lg-12">
+  <div class="btn btn-success" aria-expanded="true" aria-controls="collapseOne">
+    Choice :
+    {{
+    subscriptionData[day]
+    ? subscriptionData[day] !== "none"
+    ? this.storeArr.products[subscriptionData[day]].name
+    : subscriptionData[day]
+    : "Not selected"
+    }}
+  </div>
+</div>
+<div class="row fd_row radio-toolbar" *ngIf="
+    this.mealsMenuArr.serving_status === 'active' &&
+    checkDayOpenClose(day, mealBookingDayMorning4)
+  ">
+  <div class="col-lg-4">
+    <div class="product-box">
+      <div class="img-container">
+        <div class="img-inner">
+          <div class="inner-skew">
+            <img class="meal-image" src="{{ productArr[0].images1 }}" alt="{{ productArr[0].name }}" />
+          </div>
+        </div>
+      </div>
+      <div class="text-container">
+        <h3>
+          {{ productArr[0].name }}
+        </h3>
+        <div>
+          <h5 class="small my-1">
+            <span *ngIf="productArr[0].salad_details || productArr[0].side_details">
+              <span *ngIf="
+                  productArr[0].description.trim().substr(-1) !== '.' &&
+                  productArr[0].description.trim().substr(-1) !== ','
+                "></span>
+              Served with
+              <span *ngIf="productArr[0].salad_details">
+                {{ productArr[0].salad_details.name | lowercase }}</span>
+              <span *ngIf="productArr[0].side_details">
+                and {{ productArr[0].side_details.name | lowercase }}</span>
+            </span>
+          </h5>
+          <p class="lead" *ngIf="productArr[0].food_symbol==='Veg'">For
+            $ {{this.plansArr[
+            this.plan
+            ]['veg_price']}}
+          </p>
+          <p class="lead" *ngIf="productArr[0].food_symbol!=='Veg'">For
+            $ {{this.plansArr[
+            this.plan
+            ]['non_veg_price']}}
+          </p>
+
+          <input type="radio" name="radios-{{ day }}" class="radioman" id="radio-{{ productArr[0].id }}"
+            value="{{ productArr[0].id }}" [(ngModel)]="subscriptionData[day]" />
+          <label class="btn btn-outline-success" *ngIf="isVegChecked" for="radio-{{ productArr[0].id }}">ORDER</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="meal-mixed">
+      <div class="mix-meal">
+        <h3>
+          {{ productArr[2].name }}
+        </h3>
+        <div>
+          <h5 class="small my-1">{{ productArr[2].description }}</h5>
+          <p class="lead" *ngIf="productArr[2].food_symbol==='Veg'">For
+            $ {{this.plansArr[
+            this.plan
+            ]['veg_price']}}
+          </p>
+          <p class="lead" *ngIf="productArr[2].food_symbol!=='Veg'">For
+            $ {{this.plansArr[
+            this.plan
+            ]['non_veg_price']}}
+          </p>
+
+          <input type="radio" class="radioman" name="radios-{{ day }}" id="radio-{{ productArr[2].id }}"
+            value="{{ productArr[2].id }}" [(ngModel)]="subscriptionData[day]" />
+          <label class="btn btn-outline-success" *ngIf="isMeatChecked" for="radio-{{ productArr[2].id }}">ORDER</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="product-box">
+      <div class="img-container">
+        <div class="img-inner">
+          <div class="inner-skew">
+            <img class="meal-image" src="{{ productArr[1].images1 }}" alt="{{ productArr[1].name }}" />
+          </div>
+        </div>
+      </div>
+      <div class="text-container">
+        <h3>
+          {{ productArr[1].name }}
+        </h3>
+        <div>
+          <h5 class="small my-1">
+            <span *ngIf="productArr[1].salad_details || productArr[1].side_details">
+              <span *ngIf="
+                  productArr[1].description.trim().substr(-1) !== '.' &&
+                  productArr[1].description.trim().substr(-1) !== ','
+                "></span>
+              Served with
+              <span *ngIf="productArr[1].salad_details">
+                {{ productArr[1].salad_details.name | lowercase }}</span>
+              <span *ngIf="productArr[1].side_details">
+                and {{ productArr[1].side_details.name | lowercase }}</span>
+            </span>
+          </h5>
+          <p class="lead" *ngIf="productArr[1].food_symbol==='Veg'">For
+            $ {{this.plansArr[
+            this.plan
+            ]['veg_price']}}
+          </p>
+          <p class="lead" *ngIf="productArr[1].food_symbol!=='Veg'">For
+            $ {{this.plansArr[
+            this.plan
+            ]['non_veg_price']}}
+          </p>
+
+          <input type="radio" class="radioman" name="radios-{{ day }}" id="radio-{{ productArr[1].id }}"
+            value="{{ productArr[1].id }}" [(ngModel)]="subscriptionData[day]" />
+          <label class="btn btn-outline-success" *ngIf="isMeatChecked" for="radio-{{ productArr[1].id }}">ORDER</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="
+    this.mealsMenuArr.serving_status !== 'active' ||
+    !checkDayOpenClose(day, mealBookingDayMorning4)
+  ">
+  <div class="col-lg-12">
+    <p>We are not taking orders for this day.</p>
+  </div>
+</div>
+
+<!-- <label class="item">
+  <div class="team-item">
+    <img src="{{
+      productArr[0].images1
+    }}" alt="{{
+      productArr[0].name
+    }}" class="img-fluid fixed-size-food" />
+
+
+
+    <div class="team-info">
+      <h4 class="two-lines">
+        {{ productArr[0].name }}
+        <span *ngIf="productArr[0].food_symbol">
+          <img style="width: 20px;"
+            [src]="productArr[0].food_symbol==='Veg'?'https://storage.googleapis.com/notjusasalad-df110.appspot.com/dist/veg.png':'https://storage.googleapis.com/notjusasalad-df110.appspot.com/dist/non-veg.png'"
+            alt="{{productArr[0].food_symbol
+          }}" />
+        </span>
+
+      </h4>
+      <hr />
+      <span class="three-lines">{{
+        productArr[0].description.trim()
+        }}<span *ngIf="productArr[0].salad_details || productArr[0].side_details">
+          <span
+            *ngIf="productArr[0].description.trim().substr(-1)!=='.' && productArr[0].description.trim().substr(-1)!==','">.</span>
+          Served with
+          <span *ngIf=" productArr[0].salad_details"> {{
+            productArr[0].salad_details.name | lowercase
+            }}</span>
+          <span *ngIf=" productArr[0].side_details"> and {{
+            productArr[0].side_details.name | lowercase
+            }}</span>
+
+       </span>
+
+
+      </span>
+
+
+    </div>
+
+
+    <span *ngIf="mealsMenuArr.serving_status==='active'">
+
+
+   
+        <input type="radio" class="radioman" value="{{
+      productArr[0].id 
+    }}" class="form-control form-control-alternative radioman" name="{{day}}" 
+          [(ngModel)]="subscriptionData[day]" />
+
+
+
+    </span>
+
+
+  </div>
+</label> -->

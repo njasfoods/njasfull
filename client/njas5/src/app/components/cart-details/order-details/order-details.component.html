@@ -1,0 +1,322 @@
+<div *ngIf="loader">
+  <section class="blog-section section-padding" id="loading-section" style="padding:26px 0px;">
+    <span id="loading-main">
+      <div class="preloader_section">
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+      </div>
+      <div class="status">Rendering<span class="status__dot">.</span><span class="status__dot">.</span><span
+          class="status__dot">.</span></div>
+    </span>
+  </section>
+  <br>
+</div>
+
+<div *ngIf="storeData.store && orderDetails.contact_email && !loader" id="cart" class="checkoutForm">
+  <div style="width:100%" class="row m-0 p-0">
+    <section *ngIf="isSomethingWrong">
+      <div style="
+          text-align: center;
+          display: flex;
+          align-items: center; justify-content: center;">
+        <h1>
+          Oops something went wrong...
+        </h1>
+      </div>
+    </section>
+    <section class="col-md-8 col-12 formContent">
+      <div class="d-flex justify-content-between align-items-center">
+        <button [routerLink]="['/']" class="backBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+          </svg>
+          Home
+        </button>
+        <h4 class="m-0">Order Summary</h4>
+      </div>
+      <div class="success-animation">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+          <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
+        <div style="font-size: 25px; margin-top: 20px;">
+          ORDER PLACED!
+        </div>
+      </div>
+      <input type="hidden" id="incompleteOrder" value="1" />
+      <div class="cart-summary-total-value" style="display: none;">
+        {{ orderDetails.currency_symbol
+        | currencySymbol }} 6.87
+      </div>
+      <div class="cart-summary-total-quantity" style="display: none;">1</div>
+      <a name="cart">
+        <div class="row">
+          <div class="col-xl-12 col-md-12" style="    padding: 10px 25px;
+          color: deeppink;
+          text-align: center;
+          border-bottom: 1px solid #f3f3f3;
+          margin-bottom: 20px;">
+            Your order has been submitted, <br />
+            You will get an email from Our Team shortly. <br />
+            If you do not see it in your inbox, Please do check your spam.
+            <br />
+            Thank you for shopping with us!
+          </div>
+
+
+          <!-- <hr /> -->
+
+
+          <!-- <section *ngIf="(+(total +
+          (storeData.store.delivery_charges
+          ? +storeData.store.delivery_charges
+          : 0) -
+          appliedCouponDetails
+          ).toFixed(2)) >150 && developer_id">
+            <div class="text-success" style="font-size: 25px; margin-top: 20px;   text-align: center;">
+              To 'PAY ONLINE' click on the below button
+            </div>
+
+            <br>
+            <form #my_form action="{{wipay_payment_gateway_url}}" method="POST">
+              <input name="total" type="hidden" value="{{
+              (
+              total +
+              (storeData.store.delivery_charges
+              ? +storeData.store.delivery_charges
+              : 0) -
+              appliedCouponDetails
+              ).toFixed(2)
+              }}" />
+              <input name="phone" type="hidden" value="{{orderDetails.contactNo}}" />
+              <input name="currency_code" type="hidden" value="JMD" />
+              <input name="email" type="hidden" value="{{orderDetails.contactEmail}}" />
+              <input name="name" type="hidden" value="{{orderDetails.name}}" />
+              <input name="order_id" type="hidden" value="{{orderId}}" />
+              <input name="return_url" type="hidden" value="{{payment_return_url}}" />
+              <input name="developer_id" type="hidden" value="{{developer_id}}" />
+              <button class="btn btn-info text-center btn-block" type="submit" (click)="my_form.submit()"
+                [disabled]="orderDetails.items.length === 0">
+                <b>PAY ONLINE</b><i class="fa fa-angle-right"></i></button>
+            </form>
+            <br>
+            <hr />
+          </section> -->
+          <div class="col-xl-12 col-md-12">
+            <div class="row" style="padding: 0px 10px;
+            font-weight: 500;">
+              <div class="col-12">
+                Mode :
+                {{
+                orderDetails.selected_delivery === 'd'
+                ? 'Delivery'
+                : 'Pickup'
+                }}
+              </div>
+            </div>
+            <div class="cardBody">
+              <section *ngIf="orderDetails">
+                <div class="row">
+                  <div class="col-12" style="font-weight: 500;">
+                    Customer Details :
+                  </div>
+                  <div class="col-12">
+                    {{orderDetails.name }}, <br />
+                    {{orderDetails.contact_email }}, <br />
+                    {{orderDetails.contact_no?orderDetails.contact_no:'' }} <br />
+
+                    <span *ngIf="orderDetails.selected_delivery === 'd'">
+                      {{orderDetails.address1 }},<br />
+                      {{orderDetails.address2 }}
+                    </span>
+                  </div>
+                </div>
+              </section>
+              <div class="card">
+                <div class="row counter m-0" style="background-color: #fafafa; padding: 10px 0px;">
+                  <div class="col-3">Item</div>
+                  <div class="col-6">Name</div>
+                  <div class="col-3">Qty x Amount</div>
+                </div>
+                <div class="row d-flex align-items-center justify-content-between"
+                  *ngFor="let item of orderDetails.items; let i = index">
+                  <div class="col-3">
+                    <img class="product-img" alt="item" width="60px" height="60px" src="{{ item.images1 }}"
+                      onerror="this.onerror=null; this.src=`./assets/images/no-image.png`" />
+                  </div>
+                  <div class="col-6">{{ item.name }}</div>
+                  <div class="col-3">
+                    {{ item.quantity }}
+                    <span style="margin: 0px 3px;">x</span>
+                    {{ orderDetails.currency_symbol
+                    | currencySymbol }}
+                    {{ item.discount_price }}
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-6">Sub-Total</div>
+                <div class="col-6" style="text-align: right;">
+                  {{ orderDetails.currency_symbol
+                  | currencySymbol }}
+                  {{ orderDetails.total.toFixed(2) }}
+                </div>
+              </div>
+              <hr />
+              <div class="row" *ngIf="
+                  storeData.store.delivery_charges &&
+                  (storeData.store.order_mode === 'delivery' ||
+                    storeData.store.order_mode === 'all')
+                ">
+                <div class="col-6">Delivery Charges</div>
+                <div class="col-6" style="text-align: right;">
+                  {{ orderDetails.currency_symbol
+                  | currencySymbol }}
+                  {{ (+orderDetails.delivery_charges).toFixed(2) }}
+                </div>
+              </div>
+              <hr />
+
+              <div class="row" style="font-weight: 500; color: #e77000;" *ngIf="
+                  (storeData.store.order_mode === 'delivery' ||
+                    storeData.store.order_mode === 'all') &&
+                 orderDetails.selected_delivery === 'd'
+                ">
+                <div class="col-6">Total</div>
+                <div class="col-6" style="text-align: right;">
+                  {{ orderDetails.currency_symbol
+                  | currencySymbol }}
+                  {{
+                  (
+                  +orderDetails.payable) }}
+                </div>
+              </div>
+              <hr />
+
+              <div class="row" *ngIf="
+                  !storeData.store.delivery_charges &&
+                  (storeData.store.order_mode !== 'delivery' ||
+                    storeData.store.order_mode !== 'all') &&
+                 orderDetails.selected_delivery === 'p'
+                ">
+                <div class="col-6">
+                  Total
+                </div>
+                <div class="col-6" style="text-align: right;">
+                  {{ orderDetails.currency_symbol
+                  | currencySymbol }}
+                  {{ (+orderDetails.payable)}}
+                </div>
+              </div>
+
+              <div *ngIf="orderDetails">
+                <div class="row">
+                  <div class="col-12" style="font-weight: 500;">
+                    Special Instructions :
+                  </div>
+                  <div class="col-12" *ngIf="
+                     orderDetails.notes &&
+                     orderDetails.notes !== '' &&
+                     orderDetails.notes !== ' ' &&
+                     orderDetails.notes !== undefined &&
+                     orderDetails.notes !== null
+                    ">
+                    {{orderDetails.notes }}
+                  </div>
+                </div>
+                <hr />
+
+                <div class="row" *ngIf="
+                    !orderDetails.notes ||
+                   orderDetails.notes == '' ||
+                   orderDetails.notes === ' ' ||
+                   orderDetails.notes === undefined ||
+                   orderDetails.notes == null
+                  ">
+                  <div class="col-6 text-right">
+                    N/A
+                  </div>
+                </div>
+
+
+
+                <div *ngIf="
+                   orderDetails.selected_delivery === 'd' &&
+                    chosedDeliveryOption
+                  " class="row">
+                  <div class="col-6">
+                    Delivery Partner :
+                  </div>
+                  <div class="col-6 text-right">
+                    {{
+                    chosedDeliveryOption.name
+                    ? chosedDeliveryOption.name
+                    : 'Default'
+                    }}
+                    -
+                    {{ orderDetails.currency_symbol
+                    | currencySymbol }}
+                    {{
+                    orderDetails.delivery_charges
+                    ? +orderDetails.delivery_charges
+                    : 0
+                    }}
+                  </div>
+                </div>
+
+
+                <div *ngIf="orderDetails.bank_option" class="row">
+                  <hr />
+                  <div class="col-6">
+                    Preferred mode of payment :
+                  </div>
+                  <div class="col-6 text-right">
+                    {{
+                    orderDetails.bank_option
+                    ?orderDetails.bank_option
+                    : 'N/A'
+                    }}
+                  </div>
+                </div>
+                <hr />
+              </div>
+            </div>
+
+            <tr *ngIf="orderDetails.coupon_discount_value">
+              <td class="text-left text-success">Discount</td>
+              <td class="text-right text-success">
+                -
+                {{
+                orderDetails.currency_symbol
+                | currencySymbol
+                }}
+                {{
+                orderDetails.coupon_discount_value
+                ? orderDetails.coupon_discount_value
+                : 0
+                }}
+              </td>
+            </tr>
+          </div>
+        </div>
+
+
+        <!-- <a *ngIf="this.auth.user$.email" routerLinkActive="active" [routerLink]="['/order-receipt/' + orderId]"
+          class="btn btn-sm btn-primary btn-block" style="padding: 5px;">VIEW RECEIPT</a>
+       -->
+
+      </a>
+      <div class="card-body p-2">
+        <div class="col-lg-12 text-center">
+          <a [routerLink]="['/']" class="btn btn-outline-secondary text-center" tabindex="0" id="showOrderOptions">
+            GO TO HOME
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

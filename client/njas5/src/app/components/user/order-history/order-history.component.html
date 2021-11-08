@@ -1,0 +1,734 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+    />
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+    />
+  </symbol>
+  <symbol
+    id="exclamation-triangle-fill"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path
+      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+    />
+  </symbol>
+</svg>
+<div class="container-fluid" *ngIf="customerDetailsArr">
+  <div class="row">
+    <!--sidebar area-->
+    <div class="col-lg-3">
+      <app-user-menu></app-user-menu>
+    </div>
+
+    <!--END SIDEBAR AREA-->
+    <div class="col-lg-9 py-4">
+      <!--Purchase History-->
+      <div id="purchase_history" class="p-3 py-4">
+        <h4>Purchase History</h4>
+        <hr />
+        <div id="accordion"  *ngIf="!this.loader">
+          <div
+            class="accordion-item"
+            *ngFor="let order of customerGroceriesArr.reverse(); index as i"
+          >
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                class="accordion-button"
+                data-toggle="collapse"
+                [attr.data-target]="'#collapse' + i"
+                aria-expanded="false"
+              >
+                <h6>
+                  #{{ i + 1 }} Order Date :
+                  {{ order.order.date_created | date :'medium' : '-0000' }}
+                </h6>
+              </button>
+            </h2>
+            <!-- <div class="accordion-button" id="headingOne">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  <h6>
+                    #{{ i + 1 }} Order Date
+                    {{ order.order.date_created | date :'medium' : '-0000' }}
+                  </h6>
+                </button>
+              </h5>
+            </div> -->
+            <div
+              [attr.id]="'collapse' + i"
+              class="accordion-collapse collapse hide"
+              aria-labelledby="headingOne"
+              data-parent="#accordion"
+            >
+              <div class="accordion-body">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td>Order Date</td>
+                      <td>{{ order.order.date_created | date :'medium' : '-0000' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Delivery Date</td>
+                      <td>
+                        {{
+                          order.order.delivery_day &&
+                          order.order.delivery_day !== "N/A"
+                            ? order.order.delivery_day
+                            : "N/A"
+                        }}
+                      </td>
+                    </tr>
+                    <tr class="total-price">
+                      <td>Total Price</td>
+                      <td>
+                        {{ order.order.currency_symbol | currencySymbol }}
+                        {{ order.order.payable }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h2 id="headingTwo" style="text-align: right">
+                  <button
+                    class="btn"
+                    style="background: green; color: white"
+                    data-toggle="collapse"
+                    [attr.data-target]="'#collapse' + order.id"
+                    aria-expanded="false"
+                    (click)="getOrderById(order.id)"
+                  >
+                    View Receipt
+                  </button>
+                </h2>
+                <div
+                  [attr.id]="'collapse' + order.id"
+                  class="accordion-collapse collapse hide"
+                  aria-labelledby="headingTwo"
+                  data-parent="#accordion2"
+                >
+                  <div class="accordion-body">
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12" *ngIf="orderDetails">
+                        <div class="pdpt-bg">
+                          <div class="order-body10">
+                            <ul class="order-dtsll">
+                              <li>
+                                <div
+                                  class="order-dt-img"
+                                  style="
+                                    background: none;
+                                    border: none;
+                                    text-align: center;
+                                  "
+                                >
+                                  <!-- <img [src]="data.store.logo" alt="logo" /> -->
+                                </div>
+                              </li>
+                              <!-- <li>
+                                      <div class="order-dt47">
+                                        <h4>Gambo - Ludhiana</h4>
+                                        <p>Delivered - Gambo</p>
+                                        <div class="order-title">
+                                          2 Items
+                                          <span
+                                            data-inverted=""
+                                            data-tooltip="2kg broccoli, 1kg Apple"
+                                            data-position="top center"
+                                            >?</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </li> -->
+                            </ul>
+                            <div class="tracking-order-section">
+                              <div class="row" style="margin-top: 40px">
+                                <div class="lines">
+                                  <div class="line"></div>
+                                  <!-- <div
+                                  class="line2"
+                                  [class.activeStatusInprogress]="
+                                    orderDetails.status === 'in_progress'
+                                  "
+                                ></div> -->
+                                </div>
+                              </div>
+                              <div
+                                class="
+                                  m-auto
+                                  d-flex
+                                  justify-content-between
+                                  align-items-center
+                                  text-center
+                                "
+                                style="
+                                  margin-bottom: 20px !important;
+                                  position: relative;
+                                "
+                              >
+                                <div class="step1">
+                                  <div
+                                    class="icon-area"
+                                    [class.active]="
+                                      orderDetails.status === 'active'
+                                    "
+                                  >
+                                    <i
+                                      class="fa fa-check-circle"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </div>
+                                  <div class="title-area">
+                                    <p>Order Placed</p>
+                                  </div>
+                                </div>
+                                <div class="step2">
+                                  <div
+                                    class="icon-area"
+                                    [class.active]="
+                                      orderDetails.status === 'accepted' ||
+                                      orderDetails.status ===
+                                        'payment_processing' ||
+                                      orderDetails.status === 'in_progress'
+                                    "
+                                  >
+                                    <i class="fas fa-clipboard-check"></i>
+                                  </div>
+                                  <div class="title-area">
+                                    <p>In Progress</p>
+                                  </div>
+                                </div>
+                                <div class="step3">
+                                  <div
+                                    class="icon-area"
+                                    [class.active]="
+                                      orderDetails.status === 'shipped'
+                                    "
+                                  >
+                                    <i class="fas fa-shipping-fast"></i>
+                                  </div>
+                                  <div class="title-area">
+                                    <p>Shipped</p>
+                                  </div>
+                                </div>
+                                <div
+                                  *ngIf="orderDetails.status !== 'cancelled'"
+                                  class="step4"
+                                >
+                                  <div
+                                    class="icon-area"
+                                    [class.active]="
+                                      orderDetails.status === 'completed'
+                                    "
+                                  >
+                                    <i class="fas fa-home"></i>
+                                  </div>
+                                  <div class="title-area">
+                                    <p>Delivered</p>
+                                  </div>
+                                </div>
+                                <div
+                                  *ngIf="orderDetails.status === 'cancelled'"
+                                  class="step4"
+                                >
+                                  <div
+                                    class="icon-area"
+                                    [class.activeCancel]="
+                                      orderDetails.status === 'cancelled' ||
+                                      orderDetails.status === 'declined'
+                                    "
+                                  >
+                                    <i class="fas fa-exclamation"></i>
+                                  </div>
+                                  <div class="title-area">
+                                    <p>Cancelled</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div class="container">
+                              <span *ngFor="let item of counts; let i = index">
+                                <span
+                                  class="circle-desc"
+                                  [class.circle-desc-active]="orderStatus == item"
+                                  >{{ item | titlecase }}</span
+                                >
+                                <span
+                                  class="circles"
+                                  [class.active]="orderStatus == item"
+                                ></span>
+                                <span class="bar" *ngIf="i != counts.length - 1"></span>
+                              </span>
+                            </div> -->
+                            <div>
+                              <span
+                                class="badge badge-warning"
+                                *ngIf="orderDetails.status === 'active'"
+                                >{{ orderDetails.status | uppercase }}
+                              </span>
+                              <span
+                                class="badge badge-info"
+                                *ngIf="
+                                  orderDetails.status === 'accepted' ||
+                                  orderDetails.status ===
+                                    'payment_processing' ||
+                                  orderDetails.status === 'in_progress' ||
+                                  orderDetails.status === 'shipped'
+                                "
+                                >{{ orderDetails.status | uppercase }}
+                              </span>
+                              <span
+                                class="badge badge-success"
+                                *ngIf="orderDetails.status === 'completed'"
+                                >{{ orderDetails.status | uppercase }}
+                              </span>
+                              <span
+                                class="badge badge-danger"
+                                *ngIf="
+                                  orderDetails.status === 'cancelled' ||
+                                  orderDetails.status === 'declined'
+                                "
+                                >{{ orderDetails.status | uppercase }}
+                              </span>
+                            </div>
+                            <div class="orders-section">
+                              <table class="table table-borderless">
+                                <!-- <thead>
+                                        <tr>
+                                          <th scope="col">#</th>
+                                          <th scope="col">First</th>
+                                          <th scope="col">Last</th>
+                                          <th scope="col">Handle</th>
+                                        </tr>
+                                      </thead> -->
+                                <tbody>
+                                  <tr>
+                                    <td>Order No.</td>
+                                    <td>
+                                      : {{ orderDetails.order_id | slice: -6 }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Mode</td>
+                                    <td>
+                                      :
+                                      {{
+                                        orderDetails.selected_delivery === "p"
+                                          ? "Pickup"
+                                          : "Delivery"
+                                      }}
+                                      <span
+                                        *ngIf="
+                                          orderDetails.pickup_day &&
+                                          orderDetails.pickup_day !== ' ' &&
+                                          orderDetails.pickup_day !== '' &&
+                                          orderDetails.pickup_day !== '  ' &&
+                                          orderDetails.selected_delivery === 'p'
+                                        "
+                                      >
+                                        -
+                                        {{
+                                          orderDetails.pickup_day
+                                            ? orderDetails.pickup_day
+                                            : "N/A"
+                                        }}</span
+                                      >
+
+                                      <span
+                                        *ngIf="
+                                          orderDetails.delivery_day &&
+                                          orderDetails.delivery_day !== ' ' &&
+                                          orderDetails.delivery_day !== '' &&
+                                          orderDetails.delivery_day !== '  ' &&
+                                          orderDetails.selected_delivery === 'd'
+                                        "
+                                      >
+                                        -
+                                        {{
+                                          orderDetails.delivery_day
+                                            ? orderDetails.delivery_day
+                                            : "N/A"
+                                        }}</span
+                                      >
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Date</td>
+                                    <td>
+                                      :
+                                      {{
+                                        orderDetails.date_created
+                                          | date :'medium' : '-0000': "medium"
+                                      }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="orders-section">
+                              <h4 style="margin-left: 10px">Order Summary</h4>
+                            </div>
+                            <ul
+                              class="order-dtsll"
+                              style="padding: 10px !important"
+                            >
+                              <li *ngFor="let item of orderDetails.items">
+                                <table class="table table-borderless m-0">
+                                  <tbody>
+                                    <tr class="row">
+                                      <td
+                                        class="col-lg-2 col-md-2"
+                                        style="
+                                          display: flex;
+                                          align-items: center;
+                                        "
+                                      >
+                                        <div
+                                          class="order-dt-img"
+                                          style="margin-right: 10px"
+                                        >
+                                          <img
+                                            src="{{ item.images1 }}"
+                                            alt="logo"
+                                          />
+                                        </div>
+                                      </td>
+                                      <td class="col-lg-8 col-md-8">
+                                        <div class="order-dt47">
+                                          <h6>{{ item.name }}</h6>
+                                          <div class="order-title">
+                                            Qty. {{ item.quantity }}
+                                            x Sub:
+                                            {{
+                                              orderDetails.currency_symbol
+                                                | currencySymbol
+                                            }}
+                                            {{ item.discount_price }}
+                                          </div>
+                                        </div>
+                                      </td>
+                                      <td class="col-lg-2 col-md-2">
+                                        <h6
+                                          class="order-price"
+                                          style="color: #f55d2c"
+                                        >
+                                          {{
+                                            orderDetails.currency_symbol
+                                              | currencySymbol
+                                          }}
+                                          {{
+                                            item.discount_price * item.quantity
+                                          }}
+                                        </h6>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </li>
+                              <li style="border-top: 1px solid #efefef">
+                                <table class="table table-borderless m-0">
+                                  <tbody>
+                                    <tr>
+                                      <td
+                                        style="
+                                          display: flex;
+                                          align-items: center;
+                                        "
+                                      >
+                                        <div class="order-dt47">
+                                          <div class="order-title">
+                                            <p>Subtotal</p>
+                                            <p>
+                                              {{
+                                                orderDetails.currency_symbol
+                                                  | currencySymbol
+                                              }}
+                                              {{ orderDetails.total }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </td>
+                                      <td
+                                        *ngIf="
+                                          orderDetails.coupon_discount_value
+                                        "
+                                      >
+                                        <p>Discount</p>
+                                        <p>
+                                          {{
+                                            orderDetails.currency_symbol
+                                              | currencySymbol
+                                          }}
+                                          {{
+                                            orderDetails.coupon_discount_value
+                                              ? orderDetails.coupon_discount_value
+                                              : 0
+                                          }}
+                                        </p>
+                                      </td>
+                                      <td
+                                        *ngIf="
+                                          orderDetails.selected_delivery === 'd'
+                                        "
+                                      >
+                                        <p>Delivery</p>
+                                        <p>
+                                          {{
+                                            orderDetails.currency_symbol
+                                              | currencySymbol
+                                          }}
+                                          {{
+                                            orderDetails.delivery_charges
+                                              ? +orderDetails.delivery_charges
+                                              : 0
+                                          }}
+                                        </p>
+                                      </td>
+                                      <td
+                                        style="
+                                          text-align: right;
+                                          color: #f55d2c;
+                                          vertical-align: top;
+                                          width: 100px;
+                                        "
+                                      >
+                                        <p style="color: #f55d2c">Total</p>
+                                        <p
+                                          style="
+                                            font-weight: 700;
+                                            color: #f55d2c;
+                                            font-size: 21px;
+                                          "
+                                        >
+                                          {{
+                                            orderDetails.currency_symbol
+                                              | currencySymbol
+                                          }}
+                                          {{ orderDetails.payable }}
+                                        </p>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </li>
+                            </ul>
+                            <!-- <div class="total-dt">
+                                    <div class="total-checkout-group">
+                                      <div class="cart-total-dil">
+                                        <h4>Order Date</h4>
+                                        <span>{{ order.order.date_created | date :'medium' : '-0000' }}</span>
+                                      </div>
+                                      <div class="cart-total-dil pt-3">
+                                        <h4>Delivery Date</h4>
+                                        <span>{{
+                                          order.order.delivery_day &&
+                                          order.order.delivery_day !== 'N/A'
+                                            ? order.order.delivery_day
+                                            : 'N/A'
+                                        }}</span>
+                                      </div>
+                                    </div>
+                                    <div class="main-total-cart">
+                                      <h2>Total Price</h2>
+                                      <span>
+                                        {{ order.order.currency_symbol | currencySymbol }}
+                                        {{ order.order.payable }}
+                                      </span>
+                                    </div>
+                                  </div> -->
+                            <!-- <div class="track-order">
+                                    <h4>Track Order</h4>
+                                    <div class="bs-wizard" style="border-bottom:0;">
+                                      <div class="bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+                                          Placed
+                                        </div>
+                                        <div class="progress">
+                                          <div class="progress-bar"></div>
+                                        </div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                      </div>
+                                      <div class="bs-wizard-step complete">
+                                        
+                                        <div class="text-center bs-wizard-stepnum">
+                                          Packed
+                                        </div>
+                                        <div class="progress">
+                                          <div class="progress-bar"></div>
+                                        </div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                      </div>
+                                      <div class="bs-wizard-step active">
+                                        
+                                        <div class="text-center bs-wizard-stepnum">
+                                          On the way
+                                        </div>
+                                        <div class="progress">
+                                          <div class="progress-bar"></div>
+                                        </div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                      </div>
+                                      <div class="bs-wizard-step disabled">
+                                        <div class="text-center bs-wizard-stepnum">
+                                          Delivered
+                                        </div>
+                                        <div class="progress">
+                                          <div class="progress-bar"></div>
+                                        </div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                      </div>
+                                    </div>
+                                  </div> -->
+                            <!-- <div class="alert-offer">
+                                    <img src="assets/images/ribbon.svg" alt="" />
+                                    Cashback of $2 will be credit to Gambo Super Market wallet
+                                    6-12 hours of delivery.
+                                  </div> -->
+                            <div class="call-bill d-block">
+                              <h4>Customer information:</h4>
+                              <table class="table table-borderless">
+                                <tr>
+                                  <td>Delivery address</td>
+                                  <td>
+                                    : {{ orderDetails.name }}
+                                    <br />
+                                    &nbsp;
+                                    {{
+                                      orderDetails.selected_delivery === "p"
+                                        ? "N/A"
+                                        : orderDetails.address1 +
+                                          ", " +
+                                          orderDetails.address2
+                                    }}
+                                    <br />
+                                    &nbsp;&nbsp;Tel :
+                                    <a
+                                      href="tel:+{{ orderDetails.contact_no }}"
+                                      class="
+                                        hover-text-brand-700 hover-underline
+                                      "
+                                      style="
+                                        color: #0047c3;
+                                        text-decoration: none;
+                                      "
+                                      >{{ orderDetails.contact_no }}</a
+                                    >
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Shipping method</td>
+                                  <td>
+                                    :
+                                    {{
+                                      (orderDetails.delivery_options
+                                        ? orderDetails.delivery_options.name
+                                          ? orderDetails.delivery_options.name
+                                          : "Default"
+                                        : "Default") +
+                                        "  (  " +
+                                        (orderDetails.currency_symbol
+                                          | currencySymbol) +
+                                        " " +
+                                        (orderDetails.delivery_options
+                                          ? orderDetails.delivery_options.price
+                                            ? +orderDetails.delivery_options
+                                                .price
+                                            : 0
+                                          : 0) +
+                                        " ) "
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Payment method</td>
+                                  <td>
+                                    :
+                                    {{
+                                      orderDetails.bank_options
+                                        ? orderDetails.bank_options.name
+                                          ? orderDetails.bank_options.name
+                                          : "N/A"
+                                        : "N/A"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr
+                                  *ngIf="
+                                    orderDetails.notes !== '  ' &&
+                                    orderDetails.notes !== ' ' &&
+                                    orderDetails.notes !== '  ' &&
+                                    orderDetails.notes
+                                  "
+                                >
+                                  <td>Special Instructions</td>
+                                  <td>: {{ orderDetails.notes }}</td>
+                                </tr>
+                              </table>
+
+                              <!-- <div class="delivery-man">
+                                      Delivery Boy -
+                                      <a href="#"><i class="uil uil-phone"></i> Call Us</a>
+                                    </div> -->
+                              <div
+                                *ngIf="orderDetails.status === 'active'"
+                                class="cancel-btn"
+                              >
+                                <a
+                                  class="bill-btn5 hover-btn d-inline-block"
+                                  (click)="
+                                    cancelOrder(
+                                      orderId,
+                                      orderDetails.store_name
+                                    )
+                                  "
+                                  >Cancel Order</a
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      
+      
+      
+      
+        <section class="blog-section section-padding" id="loading-section" style="padding:26px 0px;"
+          *ngIf="this.loader">
+          <span id="loading-main">
+            <div class="preloader_section">
+              <div class="preloader_section__square"></div>
+              <div class="preloader_section__square"></div>
+              <div class="preloader_section__square"></div>
+              <div class="preloader_section__square"></div>
+            </div>
+            <div class="status">Rendering<span class="status__dot">.</span><span class="status__dot">.</span><span
+                class="status__dot">.</span></div>
+          </span>
+        </section>
+
+
+
+        <hr class="my-4" />
+      </div>
+      <!--end Purchase History-->
+    </div>
+  </div>
+</div>

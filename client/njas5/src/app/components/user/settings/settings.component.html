@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+    />
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+    />
+  </symbol>
+  <symbol
+    id="exclamation-triangle-fill"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path
+      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+    />
+  </symbol>
+</svg>
+<div class="container-fluid" *ngIf="customerDetailsArr">
+  <div class="row">
+    <!--sidebar area-->
+    <div class="col-lg-3">
+      <app-user-menu></app-user-menu>
+    </div>
+
+    <!--END SIDEBAR AREA-->
+    <div class="col-lg-9 py-4">
+      <!--Settings Area-->
+      <div id="settings" class="p-3 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-right">General Settings</h4>
+        </div>
+        <hr />
+
+        <!-- <div class="card p-4">
+          <h4>Sytem Preferences</h4>
+          <small>Configure the system according to your preferences</small>
+
+          <div class="input-group">
+            <label class="input-group-text" for="inputGroupSelect01">Timezone</label>
+            <select class="form-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-group-text" for="inputGroupSelect01">Language</label>
+            <select class="form-select" id="inputGroupSelect01">
+              <option selected>English</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-group-text" for="inputGroupSelect01">Weight Unit</label>
+            <select class="form-select" id="inputGroupSelect01">
+              <option selected>kilogram</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+        <div class="card p-4">
+          <h4>Email Settings</h4>
+          <small>Check and change your email usages.</small>
+
+          <div class="input-group">
+            <span class="input-group-text">Change Email </span>
+            <input type="text" class="form-control" placeholder="" value="khadinesmith55@gmail.com" name="email_" />
+          </div>
+        </div>
+        <div class="card p-4">
+          <h4>Email Settings</h4>
+          <small>Check and change your email usages.</small>
+
+          <div class="input-group">
+            <span class="input-group-text">Change Email </span>
+            <input type="text" class="form-control" placeholder="" value="khadinesmith55@gmail.com" name="email_" />
+          </div>
+        </div>
+        <div class="card p-4">
+          <h4>Email Settings</h4>
+          <small>Check and change your email usages.</small>
+
+          <div class="input-group">
+            <span class="input-group-text">Change </span>
+            <input type="text" class="form-control" placeholder="" value="khadinesmith55@gmail.com" name="email_" />
+          </div>
+        </div>
+        <div class="card p-4">
+          <h4>Email Settings</h4>
+          <small>Check and change your email usages.</small>
+
+          <div class="input-group">
+            <span class="input-group-text">Change Email </span>
+            <input type="text" class="form-control" placeholder="" value="khadinesmith55@gmail.com" name="email_" />
+          </div>
+        </div> -->
+
+        <div class="card p-4">
+          <h4>Change Password</h4>
+          <small>Set your new password.</small>
+
+          <hr />
+
+          <form
+            class="login-form"
+            #changePasswordForm="ngForm"
+            (ngSubmit)="submitForm(changePasswordForm)"
+            id="formDiv"
+          >
+            <input
+              name="id"
+              #id="ngModel"
+              [(ngModel)]="customerDetailsArr.id"
+              type="hidden"
+              value="{{ customerDetailsArr.id }}"
+            />
+
+            <label for="password" class="form-label">Old Password</label>
+
+            <div class="input-group">
+              <input
+                [type]="this.getType()"
+                name="password"
+                id="password"
+                class="form-control"
+                style="height: 60px"
+                placeholder="Enter Password"
+                name="password"
+                #password="ngModel"
+                [(ngModel)]="customerDetailsArr.password"
+                required
+              />
+              <label class="labels input-group-text">
+                <i
+                  [class]="getName()"
+                  color="color2"
+                  (click)="toggleTextPassword()"
+                  item-right
+                ></i>
+              </label>
+            </div>
+            <span
+              class="small text-danger"
+              *ngIf="password.invalid && password.touched"
+              >*invalid</span
+            >
+
+            <br />
+            <label for="password" class="form-label">New Password</label>
+
+            <div class="input-group">
+              <input
+                [type]="this.getType()"
+                name="new_password"
+                id="new_password"
+                class="form-control"
+                style="height: 60px"
+                placeholder="New Password"
+                name="new_password"
+                #new_password="ngModel"
+                [(ngModel)]="customerDetailsArr.new_password"
+                required
+              />
+              <label class="labels input-group-text">
+                <i
+                  [class]="getName()"
+                  color="color2"
+                  (click)="toggleTextPassword()"
+                  item-right
+                ></i>
+              </label>
+            </div>
+            <span
+              class="small text-danger"
+              *ngIf="new_password.invalid && new_password.touched"
+              >*invalid</span
+            >
+            <br />
+            <label for="password" class="form-label"
+              >Confirm New Password</label
+            >
+            <div class="input-group">
+              <input
+                [type]="this.getType()"
+                id="confirm_password"
+                class="form-control"
+                style="height: 60px"
+                placeholder="Confirm Password"
+                name="confirm_password"
+                #confirm_password="ngModel"
+                [(ngModel)]="customerDetailsArr.confirm_password"
+                required
+              />
+              <label class="labels input-group-text">
+                <i
+                  [class]="getName()"
+                  color="color2"
+                  (click)="toggleTextPassword()"
+                  item-right
+                ></i>
+              </label>
+            </div>
+            <span
+              class="small text-danger"
+              *ngIf="confirm_password.invalid && confirm_password.touched"
+              >*invalid</span
+            >
+            <span
+              class="small text-danger"
+              *ngIf="
+                customerDetailsArr.confirm_password !==
+                customerDetailsArr.new_password
+              "
+              >*password mismatch</span
+            >
+            <br />
+            <button
+              class="btn btn-primary my-3"
+              [disabled]="
+                customerDetailsArr.confirm_password !==
+                  customerDetailsArr.new_password ||
+                !changePasswordForm.form.valid
+              "
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+      <!--end Settings Area-->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,921 @@
+<div *ngIf="!loader">
+  <div class="col-md-10 m-auto col-12 p-2" id="cart">
+    <div class="order-container" id="step6">
+      <section *ngIf="noProducts">
+        <div class="card">
+          <section name="cart">
+            <div class="cardHeader">
+              <div>
+                <button (click)="goBack()" class="btn btn-default">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-arrow-left"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+                    />
+                  </svg>
+                </button>
+                <span>Cart Items</span>
+              </div>
+              <span>
+                <button
+                  class="btn clearBtn"
+                  (click)="clearCart()"
+                  [disabled]="noProducts"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                    />
+                  </svg>
+                </button>
+              </span>
+            </div>
+            <div class="text-center">
+              <div class="text-center card-body contact__msg">
+                <div class="col-lg-12">
+                  <div class="alert alert-warning" role="alert">
+                    <br />
+                    <h5>
+                      No <strong class="text-success">Product(s)</strong> to
+                      display!
+                    </h5>
+
+                    <button (click)="goBack()" class="btn btn-default">
+                      <i class="ti-angle-left"></i> Go Back
+                    </button>
+
+                    <br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section *ngIf="loader" style="padding: 50px">
+        <div class="noItemsCart">
+          <div class="lds-grid">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="loadingText">Please Wait</div>
+        </div>
+      </section>
+      <section>
+        <input type="hidden" id="incompleteOrder" value="1" />
+        <div class="cart-summary-total-value" style="display: none">
+          {{ this.storeData.store.currency_symbol | currencySymbol }}
+          6.87
+        </div>
+        <div class="cart-summary-total-quantity" style="display: none">1</div>
+        <div class="card">
+          <section name="cart">
+            <div class="cardHeader">
+              <div>
+                <button (click)="goBack()" class="btn btn-default">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-arrow-left"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+                    />
+                  </svg>
+                </button>
+                <span>Cart Items</span>
+              </div>
+              <span>
+                <button class="btn clearBtn" (click)="clearCart()">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                    />
+                  </svg>
+                </button>
+              </span>
+            </div>
+            <div
+              class="cardBody"
+              *ngIf="storageService.cart$ && storageService.cart$.length"
+            >
+              <div class="counter">
+                <div class="singleCartItemArea">
+                  <section
+                    class="cartList row m-0"
+                    *ngFor="let item of storageService.cart$; let i = index"
+                  >
+                    <div class="itemImageArea col-3">
+                      <img
+                        class="product-img"
+                        alt="product"
+                        width="60px"
+                        height="60px"
+                        src="{{ item.images1 }}"
+                        onerror="this.onerror=null; this.src='./assets/images/no-image.png'"
+                      />
+                    </div>
+                    <div class="itemNameArea col-6">
+                      <p>{{ item.name }}</p>
+                      <p class="">
+                        <strong>
+                          {{
+                            this.storeData.store.currency_symbol
+                              | currencySymbol
+                          }}
+                          {{ item.discount_price }}
+                        </strong>
+                      </p>
+                    </div>
+
+                    <div class="itemPriceArea col-3">
+                      <div class="qtyPlusMinus d-flex align-items-center">
+                        <button
+                          class="minusQtyBtn deductFromCart deductButton"
+                          data-id="4"
+                          data-name="{{ item.name }}"
+                          data-cost="item.discount_price"
+                          style="cursor: pointer"
+                          (click)="minusQuantityCOF(item, $event)"
+                        >
+                          -&nbsp;
+                        </button>
+                        <span class="badge bg-success">
+                          {{ item.quantity }}</span
+                        >
+                        <button
+                          class="addMoreQtyBtn addToCart"
+                          data-id="4"
+                          data-name="{{ item.name }}"
+                          data-cost="item.discount_price"
+                          style="cursor: pointer"
+                          (click)="addToCartCOF(item)"
+                        >
+                          &nbsp;+
+                        </button>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="cartInfoDiv">
+                <li class="list-group-item">
+                  <form
+                    #couponForm="ngForm"
+                    class="ion-padding"
+                    (ngSubmit)="submitCouponForm(couponForm)"
+                  >
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <span class="text-success">Have coupon?</span>
+                          <input
+                            type="text"
+                            id="coupon_code"
+                            name="coupon_code"
+                            class="form-control"
+                            style="height: 60px"
+                            placeholder="Enter Coupon Code Here"
+                            #coupon_code="ngModel"
+                            [(ngModel)]="couponCode"
+                            required
+                          />
+                          <span
+                            class="small text-danger"
+                            *ngIf="coupon_code.invalid && coupon_code.touched"
+                            >*invalid</span
+                          >
+                        </div>
+                        <br />
+                        <div class="text-right">
+                          <button
+                            id="couponSubmitBtn"
+                            class="btn btn-success"
+                            type="submit"
+                            [disabled]="!couponForm.form.valid"
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </li>
+
+                <hr />
+                <table>
+                  <tr>
+                    <td class="text-left">Sub-Total</td>
+                    <td class="text-right">
+                      {{
+                        this.storeData.store.currency_symbol | currencySymbol
+                      }}
+                      {{ this.storageService.cartTotal$.toFixed(2) }}
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="appliedCouponDetails">
+                    <td class="text-left text-success">Discount</td>
+                    <td class="text-right text-success">
+                      <p>
+                        {{
+                          this.storeData.store.currency_symbol | currencySymbol
+                        }}
+                        {{ +this.discountAmount }} OFF (
+                        <i>{{ this.appliedCouponDetails.name }}</i> )
+                      </p>
+                    </td>
+                  </tr>
+
+                  <tr
+                    *ngIf="
+                      storeData.store.delivery_charges &&
+                      (storeData.store.order_mode === 'delivery' ||
+                        storeData.store.order_mode === 'all')
+                    "
+                    class="text-warning show-address"
+                  >
+                    <td class="text-left">
+                      <span class="text-warning">Delivery Charges </span>
+                    </td>
+                    <td class="text-right">
+                      <span class="text-warning" *ngIf="!chosedDeliveryOption">
+                        {{
+                          this.storeData.store.currency_symbol | currencySymbol
+                        }}
+                        {{
+                          (this.storeData.store.delivery_charges
+                            ? +this.storeData.store.delivery_charges
+                            : 0
+                          ).toFixed(2)
+                        }}</span
+                      >
+                      <span class="text-warning" *ngIf="chosedDeliveryOption">
+                        {{
+                          this.storeData.store.currency_symbol | currencySymbol
+                        }}
+                        {{ this.chosedDeliveryOption.price }}</span
+                      >
+                    </td>
+                  </tr>
+
+                  <tr
+                    *ngIf="
+                      storeData.store.order_mode !== 'delivery' &&
+                      storeData.store.order_mode !== 'all'
+                    "
+                    class="text-warning show-address"
+                  >
+                    <td class="text-left">
+                      <strong>Total</strong>
+                    </td>
+                    <td class="text-right">
+                      <strong>
+                        {{
+                          this.storeData.store.currency_symbol | currencySymbol
+                        }}
+                        {{
+                          (
+                            storageService.cartTotal$ -
+                            discountAmount +
+                            this.storeData.store.delivery_charges
+                          ).toFixed(2)
+                        }}</strong
+                      >
+                    </td>
+                  </tr>
+
+                  <tr
+                    *ngIf="
+                      storeData.store.order_mode === 'delivery' ||
+                      storeData.store.order_mode === 'all'
+                    "
+                    class="text-warning show-address"
+                  >
+                    <td class="text-left">
+                      <strong>Total</strong>
+                    </td>
+                    <td class="text-right">
+                      <strong>
+                        {{
+                          this.storeData.store.currency_symbol | currencySymbol
+                        }}
+                        {{
+                          (
+                            storageService.cartTotal$ +
+                            (this.storeData.store.delivery_charges
+                              ? this.storeData.store.delivery_charges
+                              : 0) -
+                            discountAmount
+                          ).toFixed(2)
+                        }}</strong
+                      >
+                    </td>
+                  </tr>
+
+                  <tr
+                    class="text-warning show-pickup-total"
+                    style="display: none"
+                  >
+                    <td class="text-left">
+                      <strong>Total</strong>
+                    </td>
+                    <td class="text-right">
+                      <strong>
+                        {{
+                          this.storeData.store.currency_symbol | currencySymbol
+                        }}
+                        {{
+                          (storageService.cartTotal$ - discountAmount).toFixed(
+                            2
+                          )
+                        }}</strong
+                      >
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div
+              class="cardBody"
+              *ngIf="!storageService.cart$ || !storageService.cart$.length"
+            >
+              <div class="cartInfoDiv">
+                <h1>No products to display!</h1>
+              </div>
+            </div>
+            <!-- <a class="btn btn-primary" href="/cart/placeorder" role="button"
+          >Proceed to Next</a
+        > -->
+          </section>
+        </div>
+      </section>
+    </div>
+
+    <span *ngIf="!showLogin">
+      <section class="contact" style="padding-top: 50px">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-12">
+              <div class="section-heading">
+                <!-- <h4 class="subheading">Order</h4> -->
+                <!-- <span class="subtitle">get in touch</span> -->
+                <p>Customer Details</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div id="cart" *ngIf="!noProducts">
+        <form
+          #orderForm="ngForm"
+          id="form1"
+          name="form1"
+          method="post"
+          id="step7b"
+        >
+          <a name="pickup">
+            <div class="row">
+              <div class="col-xl-12 col-md-12">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <small class="text-danger">
+                    *Fill in the customer details below to submit order.
+                  </small>
+                  <span>
+                    <button
+                      class="btn clearBtn"
+                      (click)="clearCustomerDetails()"
+                      style="cursor: pointer"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-trash-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+
+                <div class="cardBody">
+                  <input
+                    type="hidden"
+                    name="delivery-mode"
+                    id="delivery-mode"
+                    value="d"
+                  />
+                  <form
+                    id="cart-form"
+                    name="form1"
+                    method="post"
+                    style="text-align: left"
+                  >
+                    <input type="hidden" id="selectedDelivery" value="d" />
+
+                    <input
+                      type="hidden"
+                      name="delivery_option"
+                      id="delivery_option"
+                      value="{{ chosedDeliveryOption }}"
+                    />
+
+                    <div class="row">
+                      <div class="form-group col-12 col-lg-6">
+                        <label
+                          >Email <span class="small text-danger">*</span></label
+                        >
+
+                        <input
+                          type="email"
+                          class="form-control"
+                          placeholder="Your email address"
+                          id="contactEmail"
+                          name="email"
+                          pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                          #email="ngModel"
+                          [(ngModel)]="'' || addCustomerDetails[0].contactEmail"
+                          required
+                        />
+                        <span
+                          class="small text-danger"
+                          *ngIf="email.invalid && email.touched"
+                          >Enter Valid Email Address</span
+                        >
+                      </div>
+
+                      <div class="form-group col-12 col-lg-6">
+                        <label
+                          >Contact number
+                          <span class="small text-danger">*</span>
+                        </label>
+                        <input
+                          type="tel"
+                          (keypress)="numberOnly($event)"
+                          class="form-control"
+                          placeholder="Your contact number"
+                          id="contactNo"
+                          name="contact_no"
+                          [(ngModel)]="'' || addCustomerDetails[0].contactNo"
+                          #mobile="ngModel"
+                          required
+                        />
+                        <span
+                          class="small text-danger"
+                          *ngIf="mobile.invalid && mobile.touched"
+                          >Enter Valid Contact Number</span
+                        >
+                      </div>
+                    </div>
+                    <div
+                      class="form-group"
+                      data-validate="Customer Name is required"
+                    >
+                      <label
+                        >Full Name
+                        <span class="small text-danger">*</span></label
+                      >
+
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        [(ngModel)]="'' || addCustomerDetails[0].name"
+                        #name="ngModel"
+                        placeholder="Your full name"
+                        required
+                      />
+                      <span
+                        class="small text-danger"
+                        *ngIf="name.invalid && name.touched"
+                        >Enter Full Name</span
+                      >
+                    </div>
+                    <div class="form-group">
+                      <label
+                        >City <span class="small text-danger">*</span></label
+                      >
+                      <select
+                        class="form-control"
+                        [value]="
+                          addCustomerDetails[0].address2
+                            ? addCustomerDetails[0].address2
+                            : 'none'
+                        "
+                        id="address2"
+                        name="address2"
+                      >
+                        <option
+                          value="none"
+                          label="Choose city"
+                          selected="selected"
+                        >
+                          Choose city
+                        </option>
+                        <option value="Kingston" label="Kingston">
+                          Kingston
+                        </option>
+                        <option value="Portmore" label="Portmore">
+                          Portmore
+                        </option>
+                      </select>
+                    </div>
+                    <div
+                      class="form-group"
+                      data-validate="Address Line 1 is required"
+                    >
+                      <label
+                        >Address <span class="small text-danger">*</span></label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="address1"
+                        name="address1"
+                        placeholder="Your door no. & locality"
+                        style="resize: none"
+                        [(ngModel)]="'' || addCustomerDetails[0].address1"
+                        #address1="ngModel"
+                        required
+                        >{{
+                          addCustomerDetails[0].address1
+                            ? addCustomerDetails[0].address1 &&
+                              addCustomerDetails[0].address1 !== " "
+                              ? addCustomerDetails[0].address1
+                              : ""
+                            : ""
+                        }}</textarea
+                      >
+                      <span
+                        class="small text-danger"
+                        *ngIf="address1.invalid && address1.touched"
+                        >Enter Address</span
+                      >
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1"
+                        >Preferred mode of payment
+                        <span class="small text-danger">*</span></label
+                      >
+                      <select
+                        class="form-control"
+                        [value]="
+                          addCustomerDetails[0].bank_option
+                            ? addCustomerDetails[0].bank_option
+                            : 'none'
+                        "
+                        id="bank_option"
+                        name="bank_option"
+                        required
+                      >
+                        <option
+                          value="none"
+                          label="Choose preferred mode of payment"
+                          selected="selected"
+                        >
+                          Choose preferred mode of payment
+                        </option>
+                        <option
+                          value="{{ item.value.name }}"
+                          *ngFor="
+                            let item of storeData.bank_options | keyvalue;
+                            let i = index
+                          "
+                          label="{{ item.value.name }}"
+                        >
+                          {{ item.value.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </form>
+
+                  <div class="form-group" *ngIf="this.storeName !== 'food'">
+                    <div style="width: 100%">
+                      <div class="text-left">
+                        Preferred Delivery Date
+                        <span class="small text-danger">*</span>
+                      </div>
+                      <!-- [selectFilter]="selectFilter" -->
+                      <form>
+                        <div class="input-group" (click)="dp.toggleCalendar()">
+                          <input
+                            class="form-control"
+                            style="float: none; background: none"
+                            placeholder="Select a date"
+                            ngx-mydatepicker
+                            name="mydate"
+                            readonly
+                            [(ngModel)]="model"
+                            [options]="myOptions"
+                            #dp="ngx-mydatepicker"
+                            (dateChanged)="onChangeDay($event)"
+                          />
+
+                          <span
+                            class="input-group-btn"
+                            style="background: #408858"
+                          >
+                            <button
+                              type="button"
+                              class="btn btn-default"
+                              (click)="dp.toggleCalendar()"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="white"
+                                class="bi bi-calendar4-week"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"
+                                />
+                                <path
+                                  d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-2 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"
+                                />
+                              </svg>
+                            </button>
+                          </span>
+                        </div>
+                      </form>
+
+                      <!-- <dl-date-time-picker
+                        startView="day"
+                        maxView="day"
+                        minView="day"
+                        minuteStep="1"
+                        name="delivery_day"
+                        [(ngModel)]="deldate"
+                        (click)="onChangeDay($event)"
+                      >
+                      </dl-date-time-picker> -->
+                    </div>
+                    <input
+                      type="hidden"
+                      id="delivery_day"
+                      value="29-12-2020"
+                      name="delivery_day"
+                      class="form-control"
+                    />
+                    <div class="col-md-12">
+                      <small
+                        class="
+                          ion-text-center
+                          form-text
+                          text-danger text-center
+                        "
+                        >Same-Day delivery will not be available, Kindly choose
+                        any later day from the order day.</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="form-group" *ngIf="this.storeName === 'food'">
+                    <div style="width: 100%">
+                      <div class="text-left">
+                        Preferred Delivery Date
+                        <span class="small text-danger">*</span>
+                      </div>
+                      <!-- [selectFilter]="selectFilter" -->
+                      <form>
+                        <div class="input-group" (click)="dp.toggleCalendar()">
+                          <input
+                            class="form-control"
+                            style="float: none; background: none"
+                            placeholder="Select a date"
+                            ngx-mydatepicker
+                            name="mydate"
+                            readonly
+                            [(ngModel)]="model"
+                            [options]="myOptions"
+                            #dp="ngx-mydatepicker"
+                            (dateChanged)="onChangeDay($event)"
+                          />
+
+                          <span
+                            class="input-group-btn"
+                            style="background: #408858"
+                          >
+                            <button
+                              type="button"
+                              class="btn btn-default"
+                              (click)="dp.toggleCalendar()"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="white"
+                                class="bi bi-calendar4-week"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"
+                                />
+                                <path
+                                  d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-2 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"
+                                />
+                              </svg>
+                            </button>
+                          </span>
+                        </div>
+                      </form>
+                    </div>
+                    <input
+                      type="hidden"
+                      id="delivery_day"
+                      value="29-12-2020"
+                      name="delivery_day"
+                      class="form-control"
+                    />
+                    <!-- <div class="col-md-12">
+                    <small class="ion-text-center form-text text-danger text-center">Delivery will be
+                      available only for same day.</small>
+                  </div> -->
+                  </div>
+                  <div class="form-group" *ngIf="this.storeName === 'food'">
+                    <label
+                      >Delivery Time :
+                      <span class="small text-danger">*</span></label
+                    >
+                    <select
+                      class="form-control"
+                      value="11:00 AM - 1:30 PM"
+                      id="delivery_time"
+                      name="delivery_time"
+                    >
+                      <option
+                        value="11:00 AM - 1:30 PM"
+                        label="11:00 AM - 1:30 PM"
+                        selected="selected"
+                      >
+                        11:00 AM - 1:30 PM
+                      </option>
+                    </select>
+                  </div>
+                  <form>
+                    <div class="form-group text-left">
+                      <p>Instructions or Preference (optional)</p>
+                      <textarea
+                        class="form-control"
+                        id="notes"
+                        name="notes"
+                        placeholder="Notes"
+                        style="resize: none; border-radius: 10px"
+                        cols="12"
+                        rows="4"
+                        >{{
+                          addCustomerDetails.length
+                            ? addCustomerDetails[0].notes
+                            : ""
+                        }}</textarea
+                      >
+                      <small id="emailHelp1" class="form-text text-muted"
+                        >We'll never share your details with anyone else.</small
+                      >
+                    </div>
+
+                    <div class="col-lg-12 col-12 p-0">
+                      <small class="text-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="green"
+                          class="bi bi-check2-square"
+                          viewBox="0 0 16 16"
+                          class="mr-2"
+                        >
+                          <path
+                            d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"
+                          />
+                          <path
+                            d="M8.354 10.354l7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"
+                          />
+                        </svg>
+                        I Agree to the
+                        <a
+                          href="https://docs.google.com/document/d/1cW8FmAT-dHJB33Nc8KKVc00YfXyfHaLmZdTf-ydsDSc/edit#heading=h.pz3lisb8tb5d"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          >Terms and Conditions</a
+                        >
+                        &nbsp; and &nbsp;
+                        <a
+                          href="https://docs.google.com/document/d/1h-w7HBzrv5bWpF8xefKS2WGKMuvuwsLnMFb6_Vj1uIg/edit"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Privacy Policy</a
+                        >.
+                      </small>
+                    </div>
+                  </form>
+                  <br />
+                  <div class="card-body p-0">
+                    <div class="col-lg-12 text-right">
+                      <button
+                        (click)="goToCreateOrderOptions()"
+                        class="btn btn-success text-center"
+                        routerlinkactive="active"
+                        tabindex="0"
+                        id="showOrderOptions"
+                      >
+                        SUBMIT ORDER
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- <div class="card-header" id="headingOne">
+                    <h2 class="mb-0 text-right">
+                      <button  class="btn btn-main" [disabled]="storageService.cart$.length === 0" (click)="payOnline()">
+                        <b>PAY</b><i class="ti-angle-right"></i></button>
+                    </h2>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </a>
+        </form>
+      </div>
+    </span>
+    <section *ngIf="showLogin" class="contact" style="padding-top: 20px">
+      <button
+        type="button"
+        (click)="loginToCheckout()"
+        class="btn btn-success btn-block pull-right"
+      >
+        Checkout
+      </button>
+    </section>
+  </div>
+</div>
+
+<div *ngIf="loader">
+  <section
+    class="blog-section section-padding"
+    id="loading-section"
+    style="padding: 26px 0px"
+    *ngIf="loader"
+  >
+    <span id="loading-main">
+      <div class="preloader_section">
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+        <div class="preloader_section__square"></div>
+      </div>
+      <div class="status">
+        Rendering<span class="status__dot">.</span
+        ><span class="status__dot">.</span><span class="status__dot">.</span>
+      </div>
+    </span>
+  </section>
+</div>
+<br />

@@ -1,0 +1,139 @@
+<div class="text-center">
+  <div class="row">
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="container days">
+        <ul class="side">
+          <li>
+            <h3 class="my-4 display-6">Categories</h3>
+          </li>
+          <li>
+            <button type="button" (click)="onChangeType('All')" class="btn {{
+                this.filter.food_type === 'All'
+                  ? 'btn-success'
+                  : 'btn-outline-success'
+              }}">
+              All
+            </button>
+          </li>
+          <li>
+            <button type="button" (click)="onChangeType('Veg')" class="btn {{
+                this.filter.food_type === 'Veg'
+                  ? 'btn-success'
+                  : 'btn-outline-success'
+              }}">
+              Vegan
+            </button>
+          </li>
+          <li>
+            <button type="button" (click)="onChangeType('Non-Veg')" class="btn {{
+                this.filter.food_type === 'Non-Veg'
+                  ? 'btn-success'
+                  : 'btn-outline-success'
+              }}">
+              Non-Vegan
+            </button>
+          </li>
+          <li>
+            <button type="button" (click)="onChangeType('Fruits')" class="btn {{
+                this.filter.food_type === 'Fruits'
+                  ? 'btn-success'
+                  : 'btn-outline-success'
+              }}">
+              Fruits
+            </button>
+          </li>
+          <!-- <li>
+            <button class="btn">Fruit</button>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-9" *ngIf="this.saladInventoryArr">
+      <form #subscribeForm="ngForm" (ngSubmit)="onClickSubmit(subscribeForm)">
+        <div class="row" *ngIf="(saladInventoryArr | json) !== '[]'">
+          <div class="col-lg-4" *ngFor="let product of saladInventoryArr | keyvalue">
+            <div class="product-box">
+              <div class="img-container">
+                <div class="img-inner">
+                  <div class="inner-skew">
+                    <img [src]="product.value.images1"
+                     class="meal-image" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="text-container">
+                <h3>{{ product.value.name }}</h3>
+                <div>
+                  <h6 class="small mb-4">
+                    Served with mixed greens, cucumber, tomatoes and carrot
+                  </h6>
+                  <p class="lead">
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{ product.value.discount_price }}
+                  </p>
+                  <div class="cart-btn-section-in-view-card">
+                    <div class="btn btn-outline-success" *ngIf="
+                        product.value.discount_price !== '0' &&
+                        !checkInCart(product.value)
+                      " (click)="addToCartCOF(product.value)">
+                      <i class="uil uil-shopping-cart-alt"></i> Add to Cart
+                    </div>
+
+                    <div *ngIf="
+                        product.value.discount_price !== '0' &&
+                        checkInCart(product.value)
+                      ">
+                      <div class="quantity buttons_added">
+                        <input type="button" value="-" class="btn btn-outline-success"
+                          (click)="minusQuantityCOF(product.value, $event)" />
+                        <span *ngFor="let item of storageService.cart$">
+                          <span *ngIf="item.id === product.value.id" style="margin: 10px">
+                            {{ item.quantity }}
+                          </span>
+                        </span>
+                        <input type="button" value="+" class="btn btn-outline-success"
+                          (click)="addToCartCOF(product.value)" />
+                      </div>
+                      <!-- <span class="cart-icon"
+              ><i class="uil uil-shopping-cart-alt"></i
+            ></span> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="(saladInventoryArr | json) === '[]'">
+        <p>Fetching pastas to display...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--switches-->
+<!-- <div class="switches d-flex justify-content-center">
+      <div class="form-check form-switch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          checked
+          id="flexSwitchCheckDefault"
+        />
+        <label class="form-check-label" for="flexSwitchCheckDefault"
+          >Vegan</label
+        >
+      </div>
+      <div class="form-check form-switch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="meatSwitch"
+          checked
+        />
+        <label class="form-check-label" for="meatSwitch">Non-Vegan</label>
+      </div>
+-->
+<!--end switch-->

@@ -1,0 +1,108 @@
+<div class="card">
+  <div class="row">
+    <div class="col bg-success d-none d-md-block"></div>
+    <div class="col">
+      <div class="p-5">
+        <p class="h6">Login</p>
+        <h4 class="display-6 my-3">Welcome Back</h4>
+
+        <form
+          class="login-form"
+          #signinForm="ngForm"
+          (ngSubmit)="submitForm(signinForm)"
+          id="formDiv"
+        >
+          <label for="email" class="form-label">Email address</label>
+
+          <div class="input-group">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="form-control"
+              style="height: 60px"
+              placeholder="Enter Email Address"
+              name="email"
+              #email="ngModel"
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+              [(ngModel)]="customerDetailsArr.email"
+              required
+            />
+          </div>
+          <span class="small text-danger" *ngIf="email.invalid && email.touched"
+            >*invalid</span
+          >
+
+          <br />
+          <label for="password" class="form-label">Password</label>
+          <div class="input-group">
+            <input
+              [type]="this.getType()"
+              name="password"
+              id="password"
+              class="form-control"
+              style="height: 60px"
+              placeholder="Password"
+              name="password"
+              #password="ngModel"
+              [(ngModel)]="customerDetailsArr.password"
+              required
+            />
+            <label class="labels input-group-text">
+              <i
+                [class]="getName()"
+                color="color2"
+                (click)="toggleTextPassword()"
+                item-right
+              ></i>
+            </label>
+          </div>
+
+          <span
+            class="small text-danger"
+            *ngIf="password.invalid && password.touched"
+            >*invalid</span
+          >
+          <!-- (click)="onSignin(email.value,password.value)" -->
+          <br />
+          <p class="message">
+            Forgot Password?
+            <a routerLink="/forgot-password/{{ customerDetailsArr.email }}"
+              >Click here to reset</a
+            >
+          </p>
+          <button
+            class="btn btn-primary my-3"
+            [disabled]="!signinForm.form.valid"
+            type="submit"
+          >
+            Login
+          </button>
+          <p class="message">
+            Not registered? <a routerLink="/signup">Create an account</a>
+          </p>
+        </form>
+
+        <div class="text-center card-body contact__msg" style="display: none">
+          <div class="col-lg-12">
+            <div class="alert alert-success " role="alert">
+              <br />
+              <h5>
+                Your <strong class="text-success">account</strong> created.
+                Look for the verification email in your inbox and click the
+                link in that email to get started. Thank you for joining with
+                us!
+              </h5>
+              <a
+                class="btn btn-success btn-rounded waves-effect waves-light m-b-40"
+                [routerLink]="['/home']"
+                >Back to home</a
+              >
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1306 @@
+<section
+  class="blog-section section-padding"
+  style="padding: 26px 0px"
+  *ngIf="subscriptionData && storeArr && plansArr && (storeArr | json) !== '[]'"
+>
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <h3 class="display-6">Checkout</h3>
+      <div class="block">
+        <div class="row">
+          <div class="text-left">
+            <a
+              routerLinkActive="active"
+              [routerLink]="['/meals']"
+              class="text-left"
+            >
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              Continue Shopping
+            </a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="text-center card-body contact__msg" style="display: none">
+            <div class="col-lg-12">
+              <div class="alert alert-success" role="alert">
+                <div class="success-animation">
+                  <svg
+                    class="checkmark"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 52 52"
+                  >
+                    <circle
+                      class="checkmark__circle"
+                      cx="26"
+                      cy="26"
+                      r="25"
+                      fill="none"
+                    />
+                    <path
+                      class="checkmark__check"
+                      fill="none"
+                      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                    />
+                  </svg>
+                  <div style="font-size: 25px; margin-top: 20px">
+                    ORDER PLACED!
+                  </div>
+                </div>
+                <br />
+                <h5>
+                  Thank you for joining our meal plan family.
+                  <br />
+                  Your confirmation will be sent to the email address provided.
+                </h5>
+                <p>
+                  Note: if you don't see your confirmation in your inbox, do
+                  check your spam folder
+                </p>
+                <!-- <h5>
+                  Your order has been mailed, You will get response from
+                  <strong class="text-danger">NJAS Team</strong> shortly. Thank
+                  you for shopping with us!Thank you for joining our meal plan family
+                </h5> -->
+                <a
+                  class="
+                    btn btn-success btn-rounded
+                    waves-effect waves-light
+                    m-b-40
+                  "
+                  [routerLink]="['/home']"
+                  >Back to home</a
+                >
+                <br />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+        <form
+          class="ion-padding"
+          #orderForm="ngForm"
+          (ngSubmit)="submitOrder(orderForm)"
+          id="formDiv"
+        >
+          <div class="row" *ngIf="(storeArr | json) !== '[]'">
+            <div class="accordion" style="width: 100%">
+              <div class="card">
+                <div id="headingOne">
+                  <h2 class="mb-0 text-right">
+                    <button
+                      class="btn btn-link11"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      <i class="fa fa-check-square"></i>
+                      Meals Subscription Details
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="collapseOne"
+                  class="collapse show"
+                  aria-labelledby="headingOne"
+                  data-parent="#accordionExample"
+                >
+                  <div class="card-body">
+                    <div class="col-lg-12">
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          Selected Plan :
+                          <h5>
+                            {{
+                              this.plansArr[this.subscriptionData.plan].name
+                                | uppercase
+                            }}
+                          </h5>
+                        </li>
+                        <li class="list-group-item">
+                          Selected Meals by Days:
+
+                          <ol>
+                            <li
+                              *ngFor="
+                                let item of subscriptionData.booking_meals_items;
+                                index as i
+                              "
+                            >
+                              {{
+                                subscriptionData.booking_meals_items[i].item
+                                  .name
+                              }}
+
+                              |<strong>{{
+                                subscriptionData.booking_meals_items[i].day
+                              }}</strong>
+                            </li>
+                          </ol>
+                        </li>
+                        <!-- <li class="list-group-item">Selected Days : <h5>
+                          {{this.subscriptionData.booking_days.join(",")}}
+                        </h5>
+                      </li> -->
+                        <!-- <li class="list-group-item">Selected Choice : <h5>
+                          {{this.subscriptionData.booking_meals.join(",")}}</h5>
+                      </li> -->
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="this.subscriptionData.plan !== 'custom'"
+                        >
+                          Package Amount :
+                          <h3>
+                            {{
+                              this.subscriptionData.plan_details.display_price
+                            }}
+                          </h3>
+                        </li>
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="this.subscriptionData.plan === 'custom'"
+                        >
+                          <span
+                            *ngIf="
+                              +this.subscriptionData.booking_days.length !== this.workingDays
+                            "
+                          >
+                            Package Amount :
+
+                            <!-- <p>
+                              {{
+                              getPlanPriceFoodType(this.subscriptionData.food_types)
+                              }} Days * JMD ${{this.plansArr['custom'].price}}
+                            </p> -->
+
+                            <h3>
+                              JMD ${{
+                                getPlanPriceFoodType(
+                                  this.subscriptionData.food_types
+                                )
+                              }}
+                            </h3>
+                          </span>
+                          <span
+                            *ngIf="
+                              +this.subscriptionData.booking_days.length === this.workingDays
+                            "
+                          >
+                            Package Amount :
+
+                            <!-- <p>
+                              {{
+                              (+this.subscriptionData.booking_days.length)
+                              }} Days * JMD $1500
+                            </p> -->
+                            <!-- <p>
+                              {{ +this.workingDays }} Days * JMD ${{
+                                this.plansArr["custom"].price
+                              }}
+                            </p> -->
+                            <h3>
+                              <span
+                                style="
+                                  text-decoration: line-through;
+                                  color: #f52727;
+                                "
+                              >
+                                JMD ${{
+                                  getPlanPriceFoodType(
+                                    this.subscriptionData.food_types
+                                  )
+                                }}
+                              </span>
+                              <br />
+                              <span>
+                                JMD ${{ this.plansArr["5-day"].price }}
+                                <strong style="font-size: smaller"
+                                  >( Payable )</strong
+                                >
+                              </span>
+                            </h3>
+                          </span>
+                        </li>
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="this.storeArr.store.delivery_charges"
+                        >
+                          Delivery Charges :
+                          <h3 class="text-danger">
+                            + JMD ${{
+                              this.storeArr.store.delivery_charges
+                            }}/day
+                          </h3>
+                        </li>
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="!this.storeArr.store.delivery_charges"
+                        >
+                          Delivery Charges :
+                          <h3 class="text-success">FREE</h3>
+                        </li>
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="
+                            !this.discountAmount && !this.appliedCouponDetails
+                          "
+                        >
+                          <form
+                            #couponForm="ngForm"
+                            class="ion-padding"
+                            (ngSubmit)="submitCouponForm(couponForm)"
+                          >
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <span class="text-success"
+                                    >Have a coupon?</span
+                                  >
+                                  <input
+                                    type="text"
+                                    id="coupon_code"
+                                    name="coupon_code"
+                                    class="form-control"
+                                    style="height: 60px"
+                                    placeholder="Enter Coupon Code Here"
+                                    #coupon_code="ngModel"
+                                    [(ngModel)]="couponCode"
+                                    required
+                                  />
+                                  <span
+                                    class="small text-danger"
+                                    *ngIf="
+                                      coupon_code.invalid && coupon_code.touched
+                                    "
+                                    >*invalid</span
+                                  >
+                                </div>
+                                <br />
+                                <div class="text-right">
+                                  <button
+                                    id="couponSubmitBtn"
+                                    class="btn btn-success"
+                                    type="submit"
+                                    [disabled]="!couponForm.form.valid"
+                                  >
+                                    Apply
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </li>
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="
+                            this.discountAmount && this.appliedCouponDetails
+                          "
+                        >
+                          Discount Amount :
+                          <h5>JMD ${{ +this.discountAmount }} OFF</h5>
+                          <i>{{ this.appliedCouponDetails.name }}</i>
+
+                          <br />
+                          <button
+                            (click)="removeCoupon()"
+                            type="button"
+                            class="btn btn-sm btn-warning btn-icon"
+                            style="padding: 5px"
+                          >
+                            <i class="fa fa-times"></i>
+                            <span class="btn-inner--text"
+                              >&nbsp;&nbsp;Remove &nbsp;&nbsp;</span
+                            >
+                          </button>
+                        </li>
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="this.subscriptionData.plan !== 'custom'"
+                        >
+                          Payable Amount :
+
+                          <!-- emergency -->
+                          <!-- <h3 *ngIf="this.subscriptionData.plan==='5-day'">
+                            JMD ${{
+                            (+this.subscriptionData.plan_details.price) +
+                            ((+this.subscriptionData.booking_days.length)*(this.storeArr.store.delivery_charges))}}
+                          </h3> -->
+                          <!-- emergency -->
+
+                          <h3 *ngIf="this.subscriptionData.plan === '5-day'">
+                            JMD ${{
+                              +this.subscriptionData.plan_details.price +
+                                +this.workingDays *
+                                  this.storeArr.store.delivery_charges -
+                                this.discountAmount
+                            }}
+                          </h3>
+
+                          <h3 *ngIf="this.subscriptionData.plan === '4-week'">
+                            JMD ${{
+                              +this.subscriptionData.plan_details.price +
+                                +4 *
+                                  +this.subscriptionData.booking_days.length *
+                                  this.storeArr.store.delivery_charges -
+                                this.discountAmount
+                            }}
+                          </h3>
+                        </li>
+
+                        <li
+                          class="list-group-item"
+                          *ngIf="this.subscriptionData.plan === 'custom'"
+                        >
+                          <span
+                            *ngIf="
+                              +this.subscriptionData.booking_days.length !== this.workingDays
+                            "
+                          >
+                            Payable Amount :
+
+                            <h3>
+                              JMD ${{
+                                getPlanPriceFoodType(
+                                  this.subscriptionData.food_types
+                                ) +
+                                  +this.subscriptionData.booking_days.length *
+                                    this.storeArr.store.delivery_charges -
+                                  this.discountAmount
+                              }}
+                            </h3>
+                          </span>
+                          <span
+                            *ngIf="
+                              +this.subscriptionData.booking_days.length === this.workingDays
+                            "
+                          >
+                            Payable Amount :
+
+                            <h3>
+                              JMD ${{
+                                +this.plansArr["5-day"].price +
+                                  +this.workingDays *
+                                    this.storeArr.store.delivery_charges -
+                                  this.discountAmount
+                              }}
+                            </h3>
+
+                            <!-- emergency -->
+                            <!-- <h3>
+                              JMD ${{
+                              5000
+                              +
+                              ((+this.subscriptionData.booking_days.length)*(this.storeArr.store.delivery_charges))}}
+                            </h3> -->
+                            <!-- emergency -->
+                          </span>
+                        </li>
+                      </ul>
+                      <br />
+                    </div>
+
+                    <button
+                      *ngIf="showLogin"
+                      type="button"
+                      (click)="loginToCheckout()"
+                      class="btn btn-success btn-block pull-right"
+                    >
+                      Login To Checkout
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="!showLogin" class="card">
+                <span
+                  class="card"
+                  [hidden]="!checkoutFormDisp"
+                  id="formSigninDiv"
+                >
+                  <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0 text-right">
+                      <button
+                        class="btn btn-link11"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#collapseOne"
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      >
+                        <i class="fa fa-id-badge"></i>
+                        SIGN IN
+                      </button>
+                    </h2>
+                  </div>
+
+                  <div
+                    id="collapseOne"
+                    class="collapse show"
+                    aria-labelledby="headingOne"
+                    data-parent="#accordionExample"
+                  >
+                    <div class="card-body">
+                      <form
+                        class="ion-padding"
+                        #fpForm="ngForm"
+                        (ngSubmit)="submitEmailForm(fpForm)"
+                        id="formEmailDiv"
+                      >
+                        <div class="row justify-content-center">
+                          <div class="col-lg-12">
+                            <div class="row form-row">
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <span class="text-success"
+                                    >Email Address</span
+                                  >
+                                  <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    class="form-control"
+                                    style="height: 60px"
+                                    placeholder="Enter Email Address"
+                                    name="email"
+                                    #email="ngModel"
+                                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                                    [(ngModel)]="customerDetailsArr.email"
+                                    required
+                                  />
+                                  <span
+                                    class="small text-danger"
+                                    *ngIf="email.invalid && email.touched"
+                                    >*invalid</span
+                                  >
+                                </div>
+                              </div>
+                              <div class="col-lg-12 text-right">
+                                <div class="mt-4 text-right">
+                                  <button
+                                    class="btn btn-success"
+                                    [disabled]="!fpForm.form.valid"
+                                    type="submit"
+                                  >
+                                    &nbsp;&nbsp;&nbsp;&nbsp;SUBMIT&nbsp;&nbsp;&nbsp;&nbsp;
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+
+                      <form
+                        class="ion-padding"
+                        #otpForm="ngForm"
+                        (ngSubmit)="submitOtpForm(otpForm)"
+                        id="formOtpDiv"
+                        style="display: none"
+                      >
+                        <div class="row justify-content-center">
+                          <div class="col-lg-12">
+                            <div class="row form-row">
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <span class="text-success">Enter OTP</span>
+                                  <input
+                                    type="hidden"
+                                    name="otpemail"
+                                    id="otpemail"
+                                    [value]="otpEmail"
+                                    class="form-control"
+                                    required
+                                  />
+                                  <input
+                                    type="tel"
+                                    name="otp"
+                                    id="otp"
+                                    class="form-control"
+                                    style="height: 60px"
+                                    placeholder="OTP"
+                                    name="otp"
+                                    #otp="ngModel"
+                                    (keypress)="numberOnly($event)"
+                                    [(ngModel)]="customerDetailsArr.otp"
+                                    required
+                                  />
+                                  <span
+                                    class="small text-danger"
+                                    *ngIf="otp.invalid && otp.touched"
+                                    >*invalid</span
+                                  >
+                                </div>
+                              </div>
+
+                              <div class="col-lg-12 text-right">
+                                <span class="post-comment"
+                                  ><a
+                                    style="
+                                      cursor: pointer;
+                                      text-decoration: underline;
+                                    "
+                                    (click)="resendOtp()"
+                                    >Resend OTP</a
+                                  ></span
+                                >
+                              </div>
+
+                              <div class="col-lg-12 text-right">
+                                <div class="mt-4 text-right">
+                                  <button
+                                    class="btn btn-success"
+                                    [disabled]="!otpForm.form.valid"
+                                    type="submit"
+                                  >
+                                    &nbsp;&nbsp;&nbsp;&nbsp;SUBMIT&nbsp;&nbsp;&nbsp;&nbsp;
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+
+                      <hr />
+
+                      <a
+                        (click)="skip()"
+                        class="btn btn-sm btn-warning btn-block btn-icon"
+                        style="padding: 5px"
+                        ><span class="btn-inner--icon"
+                          ><img
+                            src="../assets/images/skip.svg"
+                            style="width: 30px"
+                        /></span>
+                        <span class="btn-inner--text"
+                          >&nbsp;&nbsp;Skip for now</span
+                        ></a
+                      >
+                    </div>
+                  </div>
+                </span>
+
+                <span class="card" id="formSignupDiv" style="display: none">
+                  <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0 text-right">
+                      <button
+                        class="btn btn-link11"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#collapseOne"
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      >
+                        <i class="fa fa-id-badge"></i>
+                        SIGN UP
+                      </button>
+                    </h2>
+                  </div>
+
+                  <div
+                    id="collapseOne"
+                    class="collapse show"
+                    aria-labelledby="headingOne"
+                    data-parent="#accordionExample"
+                  >
+                    <div class="card-body">
+                      <form
+                        class="ion-padding"
+                        #signupForm="ngForm"
+                        (ngSubmit)="submitSignupForm(signupForm)"
+                      >
+                        <div
+                          id="collapseOne"
+                          class="collapse show"
+                          aria-labelledby="headingOne"
+                          data-parent="#accordionExample"
+                        >
+                          <div class="card-body">
+                            <div class="row justify-content-center">
+                              <div class="col-lg-12">
+                                <div class="row form-row">
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <span class="text-success"
+                                        >Full Name
+                                        <span class="text-danger small"
+                                          >(*required)</span
+                                        ></span
+                                      >
+                                      <input
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        class="form-control"
+                                        style="height: 60px"
+                                        placeholder="Enter Full Name"
+                                        name="name"
+                                        #name="ngModel"
+                                        [(ngModel)]="customerDetailsArr.name"
+                                        required
+                                      />
+                                      <span
+                                        class="small text-danger"
+                                        *ngIf="name.invalid && name.touched"
+                                        >*invalid</span
+                                      >
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <span class="text-success"
+                                        >Primary Mobile Number
+                                        <span class="text-danger small"
+                                          >(*required)</span
+                                        ></span
+                                      >
+                                      <input
+                                        type="tel"
+                                        name="mobile"
+                                        id="mobile"
+                                        class="form-control"
+                                        style="height: 60px"
+                                        (keypress)="numberOnly($event)"
+                                        placeholder="Enter Mobile Number"
+                                        name="mobile"
+                                        #mobile="ngModel"
+                                        [(ngModel)]="customerDetailsArr.mobile"
+                                        required
+                                      />
+
+                                      <span
+                                        class="small text-danger"
+                                        *ngIf="mobile.invalid && mobile.touched"
+                                        >*invalid</span
+                                      >
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <span class="text-success"
+                                        >Secondary Mobile Number
+                                        <span class="text-dark small"
+                                          >(optional)</span
+                                        ></span
+                                      >
+                                      <input
+                                        type="tel"
+                                        name="secondary_mobile"
+                                        id="secondary_mobile"
+                                        class="form-control"
+                                        (keypress)="numberOnly($event)"
+                                        style="height: 60px"
+                                        placeholder="Enter Secondary Mobile Number"
+                                        name="secondary_mobile"
+                                        #secondary_mobile="ngModel"
+                                        [(ngModel)]="
+                                          customerDetailsArr.secondary_mobile
+                                        "
+                                      />
+                                      <!-- <span class="small text-danger" *ngIf="(secondary_mobile.invalid && secondary_mobile.touched )">*invalid</span> -->
+                                    </div>
+                                  </div>
+
+                                  <!-- <div class="col-lg-12">
+                                  <div class="form-group">
+                                    <span class="text-success">Full Name</span>
+                                    <input type="text" name="fname" id="fname" class="form-control" style="height: 60px;"
+                                      placeholder="Enter First Name" name="fname" #fname="ngModel"
+                                      [(ngModel)]="customerDetailsArr.fname" required>
+          
+                                    <span class="small text-danger" *ngIf="(fname.invalid && fname.touched )">*invalid</span>
+                                  </div>
+                                </div>
+          
+          
+                                <div class="col-lg-12">
+                                  <div class="form-group">
+                                    <span class="text-success">Last Name</span>
+                                    <input type="text" name="lname" id="lname" class="form-control" style="height: 60px;"
+                                      placeholder="Enter Last Name" name="lname" #lname="ngModel"
+                                      [(ngModel)]="customerDetailsArr.lname" required>
+          
+                                    <span class="small text-danger" *ngIf="(lname.invalid && lname.touched )">*invalid</span>
+                                  </div>
+                                </div> -->
+
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <span class="text-success"
+                                        >Address
+                                        <span class="text-danger small"
+                                          >(*required)</span
+                                        ></span
+                                      >
+                                      <textarea
+                                        cols="30"
+                                        rows="4"
+                                        class="form-control"
+                                        placeholder="Address"
+                                        name="address1"
+                                        #address1="ngModel"
+                                        [(ngModel)]="
+                                          customerDetailsArr.address1
+                                        "
+                                        required
+                                      ></textarea>
+
+                                      <span
+                                        class="small text-danger"
+                                        *ngIf="
+                                          address1.invalid && address1.touched
+                                        "
+                                        >*invalid</span
+                                      >
+                                    </div>
+                                  </div>
+
+                                  <!-- <div class="col-lg-12">
+                                  <div class="form-group">
+                                    <div class="form-group">
+                                      <select class="form-control" name="address2" #address2="ngModel"
+                                        [(ngModel)]="customerDetailsArr.address2" required>
+                                        <option value="none" label="Choose Country" selected="selected">Choose Country
+                                        </option>
+                                        <option value="Jamaica" label="Jamaica">Jamaica</option>
+                                        <option value="Trinidad" label="Trinidad">Trinidad</option>
+                                      </select>
+                                      <span class="small text-danger"
+                                        *ngIf="(address2.invalid && address2.touched )">*invalid</span>
+                                    </div>
+                                  </div>
+                                </div> -->
+
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <span class="text-success"
+                                        >Email Address
+                                        <span class="text-danger small"
+                                          >(*required)</span
+                                        ></span
+                                      >
+                                      <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        class="form-control"
+                                        style="height: 60px"
+                                        placeholder="Enter Email Address"
+                                        name="email"
+                                        #email="ngModel"
+                                        pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                                        [(ngModel)]="customerDetailsArr.email"
+                                        required
+                                        readonly
+                                      />
+
+                                      <span
+                                        class="small text-danger"
+                                        *ngIf="email.invalid && email.touched"
+                                        >*invalid</span
+                                      >
+                                    </div>
+                                  </div>
+
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <span class="text-success"
+                                        >Password
+                                        <span class="text-danger small"
+                                          >(*required)</span
+                                        ></span
+                                      >
+                                      <show-hide-password
+                                        size="lg"
+                                        btnStyle="primary"
+                                        [btnOutline]="false"
+                                      >
+                                        <input
+                                          type="password"
+                                          name="password"
+                                          id="password"
+                                          class="form-control"
+                                          style="height: 60px"
+                                          placeholder="Enter Password"
+                                          name="password"
+                                          #password="ngModel"
+                                          [(ngModel)]="
+                                            customerDetailsArr.password
+                                          "
+                                          required
+                                        />
+                                      </show-hide-password>
+                                      <span
+                                        class="small text-danger"
+                                        *ngIf="
+                                          password.invalid && password.touched
+                                        "
+                                        >*invalid</span
+                                      >
+                                    </div>
+                                  </div>
+
+                                  <div class="col-lg-12 col-12 p-0">
+                                    <small class="d-flex align-items-center">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="green"
+                                        class="bi bi-check2-square"
+                                        viewBox="0 0 16 16"
+                                        class="mr-2"
+                                      >
+                                        <path
+                                          d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"
+                                        />
+                                        <path
+                                          d="M8.354 10.354l7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"
+                                        />
+                                      </svg>
+                                      &nbsp; &nbsp; I Agree to the
+                                      <a
+                                        href="https://docs.google.com/document/d/1cW8FmAT-dHJB33Nc8KKVc00YfXyfHaLmZdTf-ydsDSc/edit#heading=h.pz3lisb8tb5d"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        >Terms and Conditions</a
+                                      >
+                                      &nbsp; and &nbsp;
+                                      <a
+                                        href="https://docs.google.com/document/d/1h-w7HBzrv5bWpF8xefKS2WGKMuvuwsLnMFb6_Vj1uIg/edit"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        Privacy Policy</a
+                                      >.
+                                    </small>
+                                  </div>
+                                  <div class="col-lg-12 text-right">
+                                    <div class="mt-4 text-right">
+                                      <button
+                                        class="btn btn-success"
+                                        [disabled]="!signupForm.form.valid"
+                                        type="submit"
+                                      >
+                                        &nbsp;&nbsp;&nbsp;&nbsp;SUBMIT&nbsp;&nbsp;&nbsp;&nbsp;
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+
+                      <hr />
+
+                      <a
+                        (click)="skip()"
+                        class="btn btn-sm btn-warning btn-block btn-icon"
+                        style="padding: 5px"
+                        ><span class="btn-inner--icon"
+                          ><img
+                            src="../assets/images/skip.svg"
+                            style="width: 30px"
+                        /></span>
+                        <span class="btn-inner--text"
+                          >&nbsp;&nbsp;Skip for now</span
+                        ></a
+                      >
+                    </div>
+                  </div>
+                </span>
+
+                <span [hidden]="checkoutFormDisp">
+                  <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0 text-right">
+                      <button
+                        class="btn btn-link11"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#collapseOne"
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      >
+                        <i class="fa fa-id-badge"></i>
+                        Customer Details
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    id="collapseOne"
+                    class="collapse show"
+                    aria-labelledby="headingTwo"
+                    data-parent="#accordionExample"
+                  >
+                    <div class="card-body">
+                      <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                          <div class="row form-row">
+                            <input
+                              type="hidden"
+                              id="selectedDelivery"
+                              name="selectedDelivery"
+                              value="d"
+                            />
+                            <input
+                              type="hidden"
+                              name="delivery_option"
+                              id="delivery_option"
+                              value="{{ chosedDeliveryOption }}"
+                            />
+
+                            <div class="col-lg-12">
+                              <div class="form-group">
+                                <label>Email</label>
+                                <input
+                                  type="email"
+                                  name="email"
+                                  id="email"
+                                  class="form-control"
+                                  placeholder="Email Address"
+                                  name="contactEmail"
+                                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                                  #contactEmail="ngModel"
+                                  [(ngModel)]="customerDetailsArr.contactEmail"
+                                  required
+                                />
+
+                                <span
+                                  class="small text-danger"
+                                  *ngIf="
+                                    contactEmail.invalid && contactEmail.touched
+                                  "
+                                  >Enter Valid Email Address</span
+                                >
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                              <div class="form-group">
+                                <label>Full Name</label>
+                                <input
+                                  class="form-control"
+                                  placeholder="Full Name"
+                                  name="name"
+                                  #name="ngModel"
+                                  [(ngModel)]="customerDetailsArr.name"
+                                  required
+                                />
+
+                                <span
+                                  class="small text-danger"
+                                  *ngIf="name.invalid && name.touched"
+                                  >Enter Full Name</span
+                                >
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                              <div class="form-group">
+                                <label>Contact Number</label>
+                                <input
+                                  type="tel"
+                                  (keypress)="numberOnly($event)"
+                                  class="form-control"
+                                  placeholder="Contact Number"
+                                  name="contactNo"
+                                  #contactNo="ngModel"
+                                  [(ngModel)]="customerDetailsArr.contactNo"
+                                  required
+                                />
+
+                                <span
+                                  class="small text-danger"
+                                  *ngIf="contactNo.invalid && contactNo.touched"
+                                  >Enter valid Contact Number</span
+                                >
+                              </div>
+                            </div>
+                            <div class="col-lg-12">
+                              <div class="form-group">
+                                <div class="form-group">
+                                  <label>Choose A City</label>
+                                  <select
+                                    class="form-control"
+                                    name="address2"
+                                    #address2="ngModel"
+                                    [(ngModel)]="customerDetailsArr.address2"
+                                    (change)="deliveryOption($event)"
+                                    required
+                                  >
+                                    <option
+                                      value="none"
+                                      label="Choose delivery option"
+                                      selected="selected"
+                                    >
+                                      Choose City
+                                    </option>
+                                    <option
+                                      value="{{ item.key }}"
+                                      *ngFor="
+                                        let item of storeArr.delivery_options
+                                          | keyvalue;
+                                        let i = index
+                                      "
+                                      label="{{ $any(item).value.name }}"
+                                    >
+                                      {{ $any(item).value.name }}
+                                    </option>
+                                  </select>
+
+                                  <span
+                                    class="small text-danger"
+                                    *ngIf="address2.invalid && address2.touched"
+                                    >Choose City</span
+                                  >
+                                </div>
+                              </div>
+
+                              <!-- <li class="list-group-item" *ngIf="this.storeArr.store.delivery_charges">
+                                  Delivery Charges :
+                                  <h3 class="text-danger">
+                                    + JMD ${{
+                                    this.storeArr.store.delivery_charges
+                                    }}/day
+                                  </h3>
+                                </li>
+        
+                                <li class="list-group-item" *ngIf="!this.storeArr.store.delivery_charges">
+                                  Delivery Charges :
+                                  <h3 class="text-success">
+                                    FREE
+                                  </h3>
+                                </li> -->
+                            </div>
+
+                            <div class="col-lg-12">
+                              <div class="form-group">
+                                <label>Delivery Location</label>
+                                <p class="text-info">
+                                  <i
+                                    >“Address where the meal will be delivered
+                                    to. If you will be at 2 or more different
+                                    addresses throughout the week, please
+                                    provide additional addresses and days for
+                                    delivery here.”</i
+                                  >
+                                </p>
+                                <textarea
+                                  cols="30"
+                                  rows="4"
+                                  class="form-control"
+                                  placeholder="Location of where meals will be delivered"
+                                  name="address1"
+                                  #address1="ngModel"
+                                  [(ngModel)]="customerDetailsArr.address1"
+                                  required
+                                ></textarea>
+
+                                <span
+                                  class="small text-danger"
+                                  *ngIf="address1.invalid && address1.touched"
+                                  >Enter Delivery Location</span
+                                >
+                              </div>
+                            </div>
+
+                            <!-- <div class="col-lg-6">
+            <div class="form-group">
+              <div class="form-group">
+                <label>City</label>
+                <select class="form-control" name="address2" #address2="ngModel"
+                  [(ngModel)]="customerDetailsArr.address2" required>
+                  <option value="none" label="Choose City" selected="selected">Choose City</option>
+                 
+                 
+                 
+                  <option value="Kingston" label="Kingston">Kingston</option>
+                  <option value="Portmore" label="Portmore">
+                    Portmore
+                  </option>
+                </select>
+
+                <span class="small text-danger" *ngIf="address2.invalid && address2.touched">Choose
+                  City</span>
+              </div>
+            </div>
+          </div> -->
+
+                            <div class="col-lg-6">
+                              <div class="form-group">
+                                <label>Comments</label>
+                                <textarea
+                                  cols="30"
+                                  rows="4"
+                                  class="form-control"
+                                  placeholder="Any other questions or Comments"
+                                  name="notes"
+                                  #notes="ngModel"
+                                  [(ngModel)]="customerDetailsArr.notes"
+                                ></textarea>
+
+                                <span
+                                  class="small text-danger"
+                                  *ngIf="notes.invalid && notes.touched"
+                                  >Enter Any Comments</span
+                                >
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                              <div class="form-group">
+                                <label>Allergies</label>
+                                <textarea
+                                  cols="30"
+                                  rows="4"
+                                  class="form-control"
+                                  placeholder="Allergies"
+                                  name="allergies"
+                                  #allergies="ngModel"
+                                  [(ngModel)]="customerDetailsArr.allergies"
+                                  >{{
+                                    this.customerDetailsArr.allergies
+                                  }}</textarea
+                                >
+
+                                <span
+                                  class="small text-danger"
+                                  *ngIf="allergies.invalid && allergies.touched"
+                                  >Enter Any Allergies</span
+                                >
+                              </div>
+                            </div>
+                            <div class="col-lg-12">
+                              <div class="form-group">
+                                <label>Payment</label>
+                                <select
+                                  class="form-control"
+                                  name="bank_option"
+                                  #bank_option="ngModel"
+                                  [(ngModel)]="customerDetailsArr.bank_option"
+                                  required
+                                >
+                                  <option
+                                    value="none"
+                                    label="Preferred Mode Of Payment"
+                                    selected="selected"
+                                  >
+                                    Preferred Mode Of Payment
+                                  </option>
+                                  <option
+                                    value="{{ item.key }}"
+                                    *ngFor="
+                                      let item of storeArr.bank_options
+                                        | keyvalue;
+                                      let i = index
+                                    "
+                                    label="{{ $any(item).value.name }}"
+                                  >
+                                    {{ $any(item).value.name }}
+                                  </option>
+                                </select>
+                                <span
+                                  class="small text-danger"
+                                  *ngIf="
+                                    bank_option.invalid && bank_option.touched
+                                  "
+                                  >Choose Preferred Mode Of Payment</span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                          <hr />
+                          <div class="col-lg-12 col-12 p-0">
+                            <small class="text-center">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="green"
+                                class="bi bi-check2-square"
+                                viewBox="0 0 16 16"
+                                class="mr-2"
+                              >
+                                <path
+                                  d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"
+                                />
+                                <path
+                                  d="M8.354 10.354l7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"
+                                />
+                              </svg>
+                              &nbsp; &nbsp; I Agree to the
+                              <a
+                                href="https://docs.google.com/document/d/1cW8FmAT-dHJB33Nc8KKVc00YfXyfHaLmZdTf-ydsDSc/edit#heading=h.pz3lisb8tb5d"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >Terms and Conditions</a
+                              >&nbsp; and &nbsp;<a
+                                href="https://docs.google.com/document/d/1h-w7HBzrv5bWpF8xefKS2WGKMuvuwsLnMFb6_Vj1uIg/edit"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Privacy Policy</a
+                              >.
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <br />
+
+                  <div class="col-lg-12 card-body">
+                    <span
+                      class="small text-danger"
+                      *ngIf="!orderForm.form.valid"
+                    >
+                      *Please fill in all the required fields.</span
+                    >
+                    <br />
+
+                    <button
+                      class="btn btn-primary text-right pull-right"
+                      [disabled]="!orderForm.form.valid || load"
+                    >
+                      <i class="fa fa-cart-arrow-down"></i>
+                      &nbsp;&nbsp; SUBMIT ORDER &nbsp;&nbsp;
+                    </button>
+                  </div>
+
+                  <br />
+                </span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="loading-section" *ngIf="(storeArr | json) === '[]'">
+  <span id="loading-main">
+    <div class="preloader_section">
+      <div class="preloader_section__square"></div>
+      <div class="preloader_section__square"></div>
+      <div class="preloader_section__square"></div>
+      <div class="preloader_section__square"></div>
+    </div>
+    <div class="status">
+      Rendering<span class="status__dot">.</span
+      ><span class="status__dot">.</span><span class="status__dot">.</span>
+    </div>
+  </span>
+</section>

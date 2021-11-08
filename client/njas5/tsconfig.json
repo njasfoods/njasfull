@@ -1,0 +1,74 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    
+  "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es5",
+    "module": "es2020",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "disableTypeScriptVersionCheck": true
+  }
+}
+
+// "compilerOptions": {
+//   "skipLibCheck": true,
+//   "outDir": "./dist/out-tsc",
+//   "noImplicitAny": true,
+//   "sourceMap": true,
+//   "declaration": false,
+//   "moduleResolution": "node",
+//   "emitDecoratorMetadata": true,
+//   "experimentalDecorators": true,
+//   "removeComments": false,
+//   "target": "es5",
+//   "typeRoots": [
+//     "node_modules/@types"
+//   ],
+//   "lib": [
+//     "es2017",
+//     "dom"
+//   ],
+//   "baseUrl": "src",
+//   "paths": {
+//     "@app/*": [
+//       "app/*"
+//     ],
+//     "@env/*": [
+//       "environments/*"
+//     ],
+//     "@core/*": [
+//       "app/core/*"
+//     ],
+//     "@shared/*": [
+//       "app/shared/*"
+//     ]
+//   }
+// },

@@ -1,0 +1,9 @@
+<app-navbar></app-navbar>
+<div class="container root">
+  <router-outlet>
+    <ngx-spinner bdColor="white" size="medium" color="#408858">
+      <span style="color: #408858; font-size: 16px;">Loading...</span>
+    </ngx-spinner>
+  </router-outlet>
+</div>
+<button *ngIf="isShow" class="scroll-button btn btn-outline-success" (click)="gotoTop()">👆</button>

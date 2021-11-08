@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "njas5-d8181": {
+      "hosting": {
+        "njas": [
+          "njas5-d8181"
+        ]
+      }
+    }
+  }
+}

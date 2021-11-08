@@ -1,0 +1,56 @@
+<section class="blog-section section-padding" style="padding:26px 0px;">
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <div class="block">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0 text-right">
+              <button class="btn btn-link11" type="button" data-toggle="collapse" data-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa fa-envelope"></i>
+                Email Verification
+              </button>
+            </h2>
+          </div>
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+              <div class="error-box" style="padding-top: 50px;padding-bottom:50px;" id="load">
+                <div class="error-body text-center">
+                  <p class="text-muted m-t-30 m-b-30">loading...</p>
+                </div>
+              </div>
+              <div class="error-box" style="padding-top: 50px;padding-bottom:50px;" id="linksuccess"
+                style="display: none;">
+                <div class="error-body text-center">
+                  <h1>Congratulations!</h1>
+                  <!-- <h3 class="text-uppercase">Your email address is verified</h3> -->
+                  <p class="text-muted m-t-30 m-b-30">Your email address is verified</p>
+                  <a class="btn btn-success btn-rounded waves-effect waves-light m-b-40" [routerLink]="['/login']">SIGN
+                    IN </a>
+                </div>
+              </div>
+              <div class="error-box" style="padding-top: 50px;padding-bottom:50px;" id="linkfail"
+                style="display: none;">
+                <div class="error-body text-center">
+                  <h1>Oops!</h1>
+                  <!-- <h3 class="text-uppercase">Your email address is verified</h3> -->
+                  <p class="text-muted m-t-30 m-b-30">Invalid access or link expired.</p>
+                  <a class="btn btn-success btn-rounded waves-effect waves-light m-b-40"
+                    [routerLink]="['/home']">HOME</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+
+
+
+    </div>
+  </div>
+</section>

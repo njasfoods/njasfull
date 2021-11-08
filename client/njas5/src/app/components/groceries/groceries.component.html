@@ -1,0 +1,103 @@
+<div class="container text-center">
+  <!-- <div class="text-center pt-5`">
+    <h1 class="display-1">Coming Next Week!</h1>
+    <p class="lead">Making some upgrades!</p>
+  </div> -->
+  <div class="row" *ngIf="storeData.sub_categories">
+    <div class="col-lg-3 d-none d-lg-block">
+      <nav class="container text-center">
+        <form #subscribeForm="ngForm" (ngSubmit)="onClickSubmit(subscribeForm)">
+          <ul class="nav flex-sm-column">
+            <li>
+              <h3 class="my-4 display-6">Grocery Aisle</h3>
+            </li>
+
+            <li (click)="changeCategory('ALL')">
+              <button type="button" class="btn  {{
+                  this.categoryKey === 'ALL'
+                    ? 'btn-success'
+                    : 'btn-outline-success'
+                }} mb-2">
+                ALL
+              </button>
+            </li>
+
+            <ng-section *ngFor="
+            let category of storeData.sub_categories | keyvalue;
+            let i = index
+          ">
+              <li (click)="changeCategory(category.key)" *ngIf="category.value.status!=='inactive'">
+                <button type="button" class="btn  {{
+                this.categoryKey === category.key
+                  ? 'btn-success'
+                  : 'btn-outline-success'
+              }} mb-2">
+                  {{ category.value.name }}
+                </button>
+              </li>
+            </ng-section>
+
+          </ul>
+        </form>
+      </nav>
+    </div>
+    <div class="col-lg-9 col-md-12 col-sm-12">
+      <div class="input-group my-5">
+        <input class="form-control" placeholder="Search for item" type="search" [(ngModel)]="storageService.searchTerm$"
+          (ngModelChange)="this.storageService.setFilteredItems()" />
+      </div>
+
+      <ng-container>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="
+              let product of this.storageService.searchSelectedCategoryProducts
+                | keyvalue
+            " [ngClass]="{'d-none': product.value.status==='inactive'}">
+            <div class="groc">
+              <img [src]="product.value.images1" class="img-fluid" alt="{{ product.value.name }}" />
+              <p class="product-name">{{ product.value.name }}</p>
+              <p class="small">
+                <span *ngIf="product.value.price !== '0'" class="strike-price">{{ this.storeData.store.currency_symbol | currencySymbol }}
+                  {{ product.value.price }}</span>
+                {{ this.storeData.store.currency_symbol | currencySymbol }}
+                {{ product.value.discount_price }}
+              </p>
+
+              <div class="cart-btn-section-in-view-card">
+                <div class="btn btn-outline-success" *ngIf="
+                    product.value.discount_price !== '0' &&
+                    !checkInCart(product.value) &&
+                    product.value.sub_category_id
+                  " (click)="addToCartCOF(product.value)">
+                  <i class="uil uil-shopping-cart-alt"></i> Add to Cart
+                </div>
+
+                <div *ngIf="
+                    product.value.discount_price !== '0' &&
+                    checkInCart(product.value) &&
+                    product.value.sub_category_id
+                  ">
+                  <div class="quantity buttons_added">
+                    <input type="button" value="-" class="btn btn-outline-success"
+                      (click)="minusQuantityCOF(product.value, $event)" />
+                    <span *ngFor="let item of storageService.cart$">
+                      <span *ngIf="item.id === product.value.id" style="margin: 10px">
+                        {{ item.quantity }}
+                      </span>
+                    </span>
+                    <input type="button" value="+" class="btn btn-outline-success"
+                      (click)="addToCartCOF(product.value)" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *ngIf="!storeData.sub_categories">
+    <p>Fetching groceries to display...</p>
+  </div>
+</div>

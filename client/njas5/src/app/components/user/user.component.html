@@ -1,0 +1,320 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+    />
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+    />
+  </symbol>
+  <symbol
+    id="exclamation-triangle-fill"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path
+      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+    />
+  </symbol>
+</svg>
+<div class="container-fluid" *ngIf="customerDetailsArr">
+  <div class="row">
+    <!--sidebar area-->
+    <div class="col-lg-3">
+      <app-user-menu></app-user-menu>
+    </div>
+
+    <!--END SIDEBAR AREA-->
+    <div class="col-lg-9 py-4">
+      <!-- Profile Area-->
+      <div id="profile" class="p-3 py-4">
+        <form
+          class="ion-padding"
+          #profileUpdateForm="ngForm"
+          (ngSubmit)="submitForm(profileUpdateForm)"
+          id="formDiv"
+        >
+          <input
+            name="id"
+            #id="ngModel"
+            [(ngModel)]="customerDetailsArr.id"
+            type="hidden"
+            value="{{ customerDetailsArr.id }}"
+          />
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Profile Settings</h4>
+          </div>
+          <hr />
+          <div class="p-3">
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <label class="labels input-group-text">Full Name</label
+                  ><input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    id="name"
+                    class="form-control"
+                    placeholder="Enter Full Name"
+                    name="name"
+                    #name="ngModel"
+                    [(ngModel)]="customerDetailsArr.name"
+                    required
+                  />
+                  <span
+                    class="small text-danger"
+                    *ngIf="name.invalid && name.touched"
+                    >*invalid</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="row mt-2">
+              <div class="col-md-6">
+                <div class="input-group">
+                  <label class="labels input-group-text">First Name</label><input type="text" class="form-control"
+                    placeholder="enter your first name here" value="Khadine" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <label class="labels input-group-text">Surname</label><input type="text" class="form-control"
+                    placeholder="" value="Smith" />
+                </div>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <label class="labels input-group-text">Contact Number</label>
+                  <input
+                    type="tel"
+                    name="mobile"
+                    id="mobile"
+                    class="form-control"
+                    [readonly]="
+                      customerDetailsArr.mobile_verification &&
+                      customerDetailsArr.mobile_verification === 'true'
+                    "
+                    (keypress)="numberOnly($event)"
+                    placeholder="876-523-0123"
+                    name="mobile"
+                    #mobile="ngModel"
+                    [(ngModel)]="customerDetailsArr.mobile"
+                    required
+                  />
+                  <span
+                    class="small text-danger"
+                    *ngIf="mobile.invalid && mobile.touched"
+                    >*invalid</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="input-group">
+                  <label class="labels input-group-text"
+                    >Seconday Contact Number</label
+                  >
+                  <input
+                    type="tel"
+                    name="secondary_mobile"
+                    id="secondary_mobile"
+                    class="form-control"
+                    (keypress)="numberOnly($event)"
+                    placeholder="Enter Secondary Mobile Number"
+                    name="secondary_mobile"
+                    #secondary_mobile="ngModel"
+                    [(ngModel)]="customerDetailsArr.secondary_mobile"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="input-group">
+                  <label class="labels input-group-text"
+                    >Email &nbsp;<span class="text-primary small">
+                      <i class="fa fa-check"></i></span
+                  ></label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control"
+                    disabled
+                    placeholder="Enter Email Address"
+                    name="email"
+                    #email="ngModel"
+                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                    [(ngModel)]="customerDetailsArr.email"
+                    required
+                  />
+                  <span
+                    class="small text-danger"
+                    *ngIf="email.invalid && email.touched"
+                    >*invalid</span
+                  >
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="input-group">
+                  <label class="labels input-group-text"
+                    >Primary <br />
+                    Delivery Location</label
+                  >
+                  <textarea
+                    cols="30"
+                    rows="4"
+                    class="form-control"
+                    placeholder="Address"
+                    name="address1"
+                    #address1="ngModel"
+                    [(ngModel)]="customerDetailsArr.address1"
+                    required
+                  ></textarea>
+
+                  <span
+                    class="small text-danger"
+                    *ngIf="address1.invalid && address1.touched"
+                    >*invalid</span
+                  >
+                </div>
+              </div>
+
+              <hr class="my-2" />
+              <div class="col-md-12">
+                <div class="input-group">
+                  <p class="mb-0">
+                    Additional fields <i class="fa fa-arrow-down"></i>
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="input-group">
+                  <label class="labels input-group-text">Height</label>
+                  <input
+                    type="tel"
+                    name="height"
+                    id="height"
+                    class="form-control"
+                    (keypress)="numberOnly($event)"
+                    placeholder="Enter Height in cms"
+                    name="height"
+                    #height="ngModel"
+                    [(ngModel)]="customerDetailsArr.height"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <label class="labels input-group-text">Weight</label>
+                  <input
+                    type="tel"
+                    name="weight"
+                    id="weight"
+                    class="form-control"
+                    (keypress)="numberOnly($event)"
+                    placeholder="Enter Weight in kgs"
+                    name="weight"
+                    #weight="ngModel"
+                    [(ngModel)]="customerDetailsArr.weight"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <label class="labels input-group-text"
+                      >Activity Level</label
+                    >
+                    <select
+                      class="form-control form-control-alternative"
+                      name="activity_level"
+                      [(ngModel)]="customerDetailsArr.activity_level"
+                      #activity_level="ngModel"
+                      required
+                    >
+                      <option value="none" label="None">None</option>
+                      <option value="sedentary" label="Sedentary (most seated)">
+                        Sedentary (most seated)
+                      </option>
+                      <option value="light_activities" label="Light Activities">
+                        Light Activities
+                      </option>
+                      <option value="althlete" label="Althlete">
+                        Althlete
+                      </option>
+                      <option value="others" label="Others">Others</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <label class="labels input-group-text">Goal</label>
+
+                    <select
+                      class="form-control form-control-alternative"
+                      name="goal"
+                      [(ngModel)]="customerDetailsArr.goal"
+                      #goal="ngModel"
+                      required
+                    >
+                      <option value="none" label="None">None</option>
+                      <option value="lose_weight" label="Lose Weight">
+                        Lose Weight
+                      </option>
+                      <option value="maintain" label="Maintain">
+                        Maintain
+                      </option>
+                      <option value="gain_weight" label="Gain Weight">
+                        Gain Weight
+                      </option>
+                      <option value="others" label="Others">Others</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="labels input-group-text">Allergies</label>
+                  <div class="mt-3"></div>
+                  <div class="row">
+                    <span
+                      class="col form-check"
+                      *ngFor="let allergy of customerDetailsArr.allergies"
+                    >
+                      <input
+                        class="form-check-input"
+                        name="allergies"
+                        (change)="changeAllergy(allergy.id)"
+                        [checked]="
+                          customerDetailsArr.allergies[allergy.id].value === 1
+                        "
+                        type="checkbox"
+                      />
+                      {{ allergy.name }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          -->
+            <div class="mt-5 text-center">
+              <button class="btn btn-primary profile-button" type="submit">
+                Save Profile
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--end Profile Area-->
+    </div>
+  </div>
+</div>

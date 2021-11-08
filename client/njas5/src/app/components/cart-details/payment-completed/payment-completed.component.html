@@ -1,0 +1,245 @@
+<div class="wrapper">
+  <div class="gambo-Breadcrumb">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/']"><i class="uil uil-arrow-left"></i>Back</a>
+              </li>
+              <li class="breadcrumb-item" aria-current="page">
+                Order Placed
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="all-product-grid">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-12">
+          <div class="order-placed-dt">
+            <i class="uil uil-check-circle icon-circle"></i>
+            <h2>Order Successfully Placed</h2>
+            <p>
+              Your order has been submitted, <br />
+              You will get an email from Our Team shortly. <br />
+              If you do not see it in your inbox, Please do check your spam.
+              <br />
+              Thank you for shopping with us!
+            </p>
+
+            <div class="checkout-cart" style="display: inherit;">
+              <a class="cart-btn hover-btn" [routerLink]="['/']">Continue Shopping</a>
+            </div>
+            <div class="delivery-address-bg">
+              <div class="title585">
+                <div class="pln-icon"><i class="uil uil-telegram-alt"></i></div>
+                <h4>Your order will be delivered to this address</h4>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Name</th>
+                    <th>Qty x Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="
+                      let item of storageService.localCart$;
+                      let i = index
+                    ">
+                    <td scope="row">
+                      <img alt="item" width="60px" height="60px" [src]="item.images1" />
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>
+                      {{ item.quantity }}
+                      <span style="margin: 0px 3px;">x</span>
+                      {{
+                      this.storeData.store.currency_symbol | currencySymbol
+                      }}
+                      {{ item.discount_price }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="order-summary-card">
+                <div class="row" *ngIf="storageService.orderId$">
+                  <div class="col-md-6 col-6">Order Id</div>
+                  <div class="col-md-6 col-6">
+                    :
+                    {{ storageService.orderId$ | slice: -6 }}
+                  </div>
+                </div>
+                <div class="row" *ngIf="addCustomerDetails[0].bank_option">
+                  <div class="col-md-6 col-6">Preferred mode of payment</div>
+                  <div class="col-md-6 col-6">
+                    :
+                    {{
+                    addCustomerDetails[0].bank_option
+                    ? storeData.bank_options[
+                    addCustomerDetails[0].bank_option
+                    ].name
+                    : 'N/A'
+                    }}
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="
+                    addCustomerDetails[0].selectedDelivery === 'd' &&
+                    chosedDeliveryOption
+                  ">
+                  <div class="col-md-6 col-6">Delivery Partner</div>
+                  <div class="col-md-6 col-6">
+                    :
+                    {{
+                    chosedDeliveryOption.name
+                    ? chosedDeliveryOption.name
+                    : 'Default'
+                    }}
+                    -
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{
+                    chosedDeliveryOption.price
+                    ? chosedDeliveryOption.price
+                    : 0
+                    }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-6">Delivery Day</div>
+                  <div class="col-md-6 col-6">
+                    :
+                    {{
+                    addCustomerDetails[0].delivery_day
+                    ? addCustomerDetails[0].delivery_day
+                    : 'N/A'
+                    }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-6">Delivery Location</div>
+                  <div class="col-md-6 col-6">
+                    :
+                    {{
+                    addCustomerDetails[0].address2
+                    ? addCustomerDetails[0].address2
+                    : 'N/A'
+                    }}
+                  </div>
+                </div>
+                <div class="row" *ngIf="addCustomerDetails.length">
+                  <div class="col-md-6 col-6">
+                    Special Instructions
+                  </div>
+                  <div class="col-md-6 col-6">
+                    <span *ngIf="
+                        addCustomerDetails[0].notes &&
+                        addCustomerDetails[0].notes !== '' &&
+                        addCustomerDetails[0].notes !== ' ' &&
+                        addCustomerDetails[0].notes !== undefined &&
+                        addCustomerDetails[0].notes !== null
+                      ">
+                      : {{ addCustomerDetails[0].notes }}
+                    </span>
+                    <span *ngIf="
+                        !addCustomerDetails[0].notes ||
+                        addCustomerDetails[0].notes == '' ||
+                        addCustomerDetails[0].notes === ' ' ||
+                        addCustomerDetails[0].notes === undefined ||
+                        addCustomerDetails[0].notes == null
+                      ">
+                      N/A</span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 col-6">Sub-Total</div>
+                  <div class="col-md-6 col-6">
+                    :
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{ storageService.cartTotal$.toFixed(2) }}
+                  </div>
+                </div>
+                <div class="row" *ngIf="
+                    storeData.store.delivery_charges &&
+                    (storeData.store.order_mode === 'delivery' ||
+                      storeData.store.order_mode === 'all')
+                  ">
+                  <div class="col-md-6 col-6">
+                    Delivery Charges
+                  </div>
+                  <div class="col-md-6 col-6">
+                    :
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{ (+this.storeData.store.delivery_charges).toFixed(2) }}
+                  </div>
+                </div>
+                <div class="row" *ngIf="
+                    (storeData.store.order_mode === 'delivery' ||
+                      storeData.store.order_mode === 'all') &&
+                    addCustomerDetails[0].selectedDelivery === 'd'
+                  ">
+                  <div class="col-md-6 col-6" style="color: #f55d2c; font-weight: 600;">
+                    Total
+                  </div>
+                  <div class="col-md-6 col-6" style="color: #f55d2c; font-weight: 600;">
+                    :
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{
+                    (
+                    storageService.cartTotal$ +
+                    (storeData.store.delivery_charges
+                    ? +storeData.store.delivery_charges
+                    : 0) -
+                    appliedCouponDetails
+                    ).toFixed(2)
+                    }}
+                  </div>
+                </div>
+                <div class="row" *ngIf="
+                    !storeData.store.delivery_charges &&
+                    (storeData.store.order_mode !== 'delivery' ||
+                      storeData.store.order_mode !== 'all') &&
+                    addCustomerDetails[0].selectedDelivery === 'p'
+                  ">
+                  <div class="col-md-6" style="color: #f55d2c; font-weight: 500;">
+                    Total
+                  </div>
+                  <div class="col-md-6" style="color: #f55d2c; font-weight: 500;">
+                    :
+                    {{ this.storeData.store.currency_symbol | currencySymbol }}
+                    {{
+                    (
+                    storageService.cartTotal$ - appliedCouponDetails
+                    ).toFixed(2)
+                    }}
+                  </div>
+                </div>
+
+                <div class="stay-invoice">
+                  <div class="st-hm">
+                    Thank you for shopping with us. Stay Home! Stay Safe!<i class="uil uil-smile"></i>
+                  </div>
+                  <!-- <a href="#" class="invc-link hover-btn">invoice</a> -->
+                </div>
+                <!-- <div class="placed-bottom-dt">
+                The payment of <span>$16</span> you'll make when the deliver arrives with your order.
+              </div> -->
+              </div>
+            </div>
+
+            <div class="checkout-cart">
+              <a class="cart-btn hover-btn" [routerLink]="['/']">Continue Shopping</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+.breadcrumb-item{
+    font-size: 14px;
+}
+
+.sticky-nav{
+    position: sticky;
+    top: 120px;
+}
+
+.sticky-nav li{
+    margin-bottom: 1rem;
+}
+.groc{
+    border: none;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    height: 20rem;
+    width: 15rem;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+
+}
+
+.groc img{
+    height: 11rem;
+    width: 100%;
+}
+
+
+.side .btn{
+    width: 10rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+li{
+    margin: 1rem 0;
+    
+    
+}
+
+.meal-mixed{
+    display: inline-block;
+    position: relative;
+    top: 9rem;
+    width: 14rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.mix-meal{
+
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    padding: 1.5rem;
+    border-radius: 20px;
+    background: #fff;
+    line-height: 19px;
+    font-size: 14px;
+}
+.mix-meal h3 {
+    margin: 1rem 0px 0.5rem 0px;
+    color: #147750;
+    font-size: 1.3rem;
+  }
+
+  .days{
+      position: sticky;
+      top: 5rem;
+  }
+
+  .side .btn{
+      width: 10rem;
+  }
+
+  
+
+  
+/* .radioman {
+    position: absolute;
+    top: 3%;
+    right: 3% !important;
+    width: 8%;
+  } */
+
+
+  .radio-toolbar input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-toolbar label {
+    display: inline-block;
+    background-color: #ddd;
+    padding: 4px 11px;
+    font-family: Arial;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .radio-toolbar input[type="radio"]:checked+label {
+    background-color: #bbb;
+  }

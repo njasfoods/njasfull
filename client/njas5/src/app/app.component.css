@@ -1,0 +1,21 @@
+/* @import "../../node_modules/ngx-toastr/toastr.css"; */
+app-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.root {
+    margin-top: 5rem;
+}
+
+.scroll-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+}

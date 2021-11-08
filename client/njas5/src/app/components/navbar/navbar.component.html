@@ -1,0 +1,130 @@
+<div>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <form
+        class="navBag"
+        #subscribeForm="ngForm"
+        (ngSubmit)="onClickSubmit(subscribeForm)"
+      >
+        <button
+          type="submit"
+          class="nav-link btn text-white position-relative"
+          [disabled]="!storageService.cart$ || !storageService.cart$.length"
+        >
+          <i class="fas fa-shopping-bag"></i>
+          &nbsp;
+          <span class="position-absolute badge rounded-pill bg-warning">{{
+            storageService.cart$.length
+          }}</span>
+        </button>
+      </form>
+      <a routerLink="" class="navbar-brand"
+        ><img class="logo brand" src="../../../assets/img/logo_w.png" />
+      </a>
+
+      <!--mobile toggle button-->
+      <!-- data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" -->
+
+      <button class="navbar-toggler" (click)="toggleMobileNav()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!--Inner navbar-->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a routerLink="/meals" routerLinkActive="active" class="nav-link"
+              >Meals</a
+            >
+          </li>
+          <li class="nav-item">
+            <a routerLinkActive="active" routerLink="/salads" class="nav-link"
+              >Salads</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a routerLinkActive="active" routerLink="/pasta" class="nav-link"
+              >Pasta</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              routerLinkActive="active"
+              class="nav-link"
+              routerLink="/groceries"
+              >Groceries</a
+            >
+          </li>
+          <li class="nav-item">
+            <a routerLinkActive="active" class="nav-link" routerLink="/recipes">
+              Recipes</a
+            >
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link"><i class="fas fa-search" aria-hidden="true"></i></a>
+          </li> -->
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+              aria-controls="offcanvasExample">
+              <i class="fas fa-shopping-bag"></i>
+            </a>
+          </li> -->
+          <li class="nav-item">
+            <form
+              class="navCart"
+              #subscribeForm="ngForm"
+              (ngSubmit)="onClickSubmit(subscribeForm)"
+            >
+              <button
+                type="submit"
+                class="nav-link btn text-white position-relative"
+                [disabled]="
+                  !storageService.cart$ || !storageService.cart$.length
+                "
+              >
+                <i class="fas fa-shopping-bag"></i>
+                &nbsp;
+                <span class="position-absolute badge rounded-pill bg-warning">{{
+                  storageService.cart$.length
+                }}</span>
+              </button>
+            </form>
+          </li>
+          <div *ngIf="!this.auth.user$.name">
+            <a routerLink="/login" class="nav-item btn btn-outline-light"
+              >Login</a
+            >
+            <a routerLink="/signup" class="nav-item btn btn-outline-light"
+              >Signup</a
+            >
+          </div>
+          <div *ngIf="this.auth.user$.name">
+            <li class="nav-item">
+              <a
+                routerLink="/user"
+                routerLinkActive="active"
+                class="nav-link nav-link"
+                ><i class="fas fa-user" aria-hidden="true"></i> &nbsp;
+                {{ this.auth.user$.name }}</a
+              >
+            </li>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!--off canvas checkout cart-->
+  <div
+    class="offcanvas offcanvas-start"
+    tabindex="-1"
+    id="offcanvasExample"
+    aria-labelledby="offcanvasExampleLabel"
+  >
+    <app-cart></app-cart>
+  </div>
+</div>
